@@ -44,10 +44,12 @@ Y = tf.placeholder("float", [None, num_classes])
 # Define weights
 weights = {
     # Hidden layer weights => 2*n_hidden because of forward + backward cells
-    'out': tf.Variable(tf.random_normal([2*num_hidden, num_classes]))
+    #'out': tf.Variable(tf.random_normal([2*num_hidden, num_classes]))
+    'out': tf.Variable(tf.truncated_normal([2*num_hidden, num_classes]))
 }
 biases = {
-    'out': tf.Variable(tf.random_normal([num_classes]))
+    #'out': tf.Variable(tf.random_normal([num_classes]))
+    'out': tf.Variable(tf.truncated_normal([num_classes]))
 }
 
 
