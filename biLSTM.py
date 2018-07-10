@@ -10,7 +10,7 @@ from tensorflow.contrib import rnn
 
 class BiLSTM(CommonModelFunc):
 
-  def __init__(self, FLAGS, insCNNModel, insDataPro):
+  def __init__(self, FLAGS, insCNNModel):
     self.FLAGS = FLAGS
     self.insCNNModel = insCNNModel
 
@@ -46,17 +46,17 @@ class BiLSTM(CommonModelFunc):
 
       # Get lstm cell output
       try:
-          self.hiddenOutputs, _, _ = rnn.static_bidirectional_rnn(
-              lstmFwCell,
-              lstmBwCell,
-              self.insCNNModel.hROIPooling,
-              dtype=tf.float32)
+        self.hiddenOutputs, _, _ = rnn.static_bidirectional_rnn(
+            lstmFwCell,
+            lstmBwCell,
+            self.insCNNModel.hROIPooling,
+            dtype=tf.float32)
       except Exception:  # Old TensorFlow version only returns outputs not states
-          self.hiddenOutputs = rnn.static_bidirectional_rnn(
-              lstmFwCell,
-              lstmBwCell,
-              self.insCNNModel.hROIPooling,
-              dtype=tf.float32)
+        self.hiddenOutputs = rnn.static_bidirectional_rnn(
+            lstmFwCell,
+            lstmBwCell,
+            self.insCNNModel.hROIPooling,
+            dtype=tf.float32)
 
       self.zOutput4LSTM = tf.add(
           tf.matmul(
@@ -65,4 +65,25 @@ class BiLSTM(CommonModelFunc):
           bOutput4LSTM,
           name = name4Z)
 
-      self.hOutput4LSTM = tf.nn.softmax(self.zOutput4LSTM, name = name4H)
+      self.hOutput4LSTM = tf.nn.sigmoid(self.zOutput4LSTM, name = name4H)
+      #self.hOutput4LSTM = tf.nn.softmax(self.zOutput4LSTM, name = name4H)
+
+    # ===== Loss layer for LSTM =====
+    with tf.variable_scope("loss4LSTMLayer"):
+      name4Loss = "loss4LSTM"
+
+      self.loss4LSTM = tf.reduce_mean(
+          tf.square(
+              tf.subtract(
+                  self.hOutput4LSTM,
+                  self.insCNNModel.yLabel)),
+          name = name4Loss)
+      #self.loss4LSTM = tf.reduce_mean(
+      #    tf.nn.softmax_cross_entropy_with_logits(
+      #        logits = self.zDiscriminator,
+      #        labels = self.CNNModel.fType),
+      #    name = name4Loss)
+      tf.summary.scalar("loss4LSTM", self.loss4LSTM)
+
+      self.trainStep = tf.train.AdamOptimizer(
+          self.FLAGS.learningRate).minimize(self.loss4LSTM)
