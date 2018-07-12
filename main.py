@@ -29,12 +29,12 @@ flags.DEFINE_string(
     "Path for all data.")
 
 flags.DEFINE_string(
-    "path4SaveModel",
+    "path4TrainedModel",
     "./files/trainedModel",
-    "Path for saving model.")
+    "Path for saving trained model.")
 
 flags.DEFINE_string(
-    "path4SaveFinalValue",
+    "path4FinalValue",
     "./files/finalValue",
     "Path for saving final value.")
 
@@ -61,7 +61,7 @@ flags.DEFINE_integer(
 flags.DEFINE_integer(
     "num4FeatureType",
     3,
-    "Number of feature type.")
+    "Number of feature types.")
 
 flags.DEFINE_integer(
     "num4Feature4Instance",
@@ -76,7 +76,7 @@ flags.DEFINE_integer(
 flags.DEFINE_integer(
     "displayStep",
     100,
-    "Steps for displaying training result.")
+    "Steps for displaying training procedure.")
 
 flags.DEFINE_integer(
     "num4Class",
