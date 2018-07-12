@@ -34,9 +34,9 @@ flags.DEFINE_string(
     "Path for saving trained model.")
 
 flags.DEFINE_string(
-    "path4FinalValue",
-    "./files/finalValue",
-    "Path for saving final value.")
+    "path4FinalValues",
+    "./files/finalValues",
+    "Path for saving final values.")
 
 flags.DEFINE_float(
     "testSize",
@@ -59,12 +59,12 @@ flags.DEFINE_integer(
     "Dimension for embedding.")
 
 flags.DEFINE_integer(
-    "num4FeatureType",
+    "num4FeatureTypes",
     3,
     "Number of feature types.")
 
 flags.DEFINE_integer(
-    "num4Feature4Instance",
+    "num4Features4Instance",
     7,
     "Number of features for each instance.")
 
@@ -79,12 +79,12 @@ flags.DEFINE_integer(
     "Steps for displaying training procedure.")
 
 flags.DEFINE_integer(
-    "num4Class",
+    "num4Classes",
     14,
-    "Number of classes.")
+    "Number of classeses.")
 
 flags.DEFINE_integer(
-    "num4Epoch",
+    "num4Epoches",
     2000,
     "Epoches for training.")
 
