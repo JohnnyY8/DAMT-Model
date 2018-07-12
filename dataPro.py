@@ -10,43 +10,45 @@ class DataPro:
     self.FLAGS = FLAGS
     self.featureTypes = np.array(["DrugFingerPrint", "DrugPhy", "L1000"])
     self.cls = np.array(["A375", "HA1E", "HT29", "MCF7", "PC3"])
-    self.data, self.label4Discriminator, self.label4Classification = \
-        np.array([]), np.array([]), np.array([])
 
-  # ===== Get several feature type data =====
-  def getFeatureData(self):
+  # ===== Get feature data =====
+  def getData(self):
     path4Sample = os.path.join(self.path4Data, "Sample")
 
     for featureType in self.featureTypes:
-      if featureType == "L1000":
-        for cl in cls:
-          path4DataNPY = os.path.join(path4Sample, "L1000", "L1000_" + cl + "_6052SAMPLE.npy")
-          self.stackData(self.data, np.load(path4DataNPY)
-      else:
-        path4DataNPY = os.path.join(path4Sample, featureType + "_6052SAMPLE.npy")
-        self.stackData(self.data, np.load(path4DataNPY))
-    self.num4Data = np.load(path4DataNPY).shape[0]
+      if featureType == "DrugFingerPrint":
+        self.data4DrugFingerPrint = np.load(os.path.join(path4Sample, "DrugFingerPrint", "DrugfingerPrint_6052SAMPLE.npy"))
+      elif featureType == "DrugPhy":
+        self.data4DrugPht = np.load(os.path.join(path3Sample, "DrugPhy", "DrugPhy_6052SAMPLE.npy"))
+      elif featureType == "L1000":
+        self.data4L10004A375 = np.load(os.path.join(path4Sample, "L1000", "L1000_A375_6052SAMPLE.npy"))
+        self.data4L10004HA1E = np.load(os.path.join(path4Sample, "L1000", "L1000_HA1E_6052SAMPLE.npy"))
+        self.data4L10004HT29 = np.load(os.path.join(path4Sample, "L1000", "L1000_HT29_6052SAMPLE.npy"))
+        self.data4L10004MCF7 = np.load(os.path.join(path4Sample, "L1000", "L1000_MCF7_6052SAMPLE.npy"))
+        self.data4L10004PC3 = np.load(os.path.join(path4Sample, "L1000", "L1000_PC3_6052SAMPLE.npy"))
 
   # ===== Get feature types as label for discriminator =====
-  def getFeatureTypes(self):
+  def getLabels4Discriminator(self):
     self.num4FeatureTypes = self.featureTypes.shape[0]
 
     for ind, featureType in enumerate(self.featureTypes):
-      if featureType == "L1000":
-        for cl in cls:
-          tempLabel = np.zeros([self.num4Data, self.num4FeatureTypes])
-          tempLabel[:, ind] = 1
-          self.stackData(self.label4FeatureTypes, tempLabel)
-      else:
-        tempLabel = np.zeros([self.num4Data, self.num4FeatureTypes])
-        tempLabel[:, ind] = 1
-        self.stackData(self.label4FeatureTypes, tepmLabel)
+      tempLabel = np.zeros([self.FLAGS.num4Data, self.num4FeatureTypes])
+      tempLabel[:, ind] = 1
 
-  # ===== Stack all feature type data or label =====
-  # The interval is 6052 in this study
-  def stackData(self, old, new):
-    if old.shape[0] == 0:
-      old = new
-    else:
-      old = np.vstack((old, new))
+      if featureType == "DrugFingerPrint":
+        self.label4DrugFingerPrint4Discriminator = tempLabel
+      elif featureType == "DrugPhy":
+        self.label4DrugPhy4Discriminator = tempLabel
+      elif featureType == "L1000":
+        self.label4L10004A3754Discriminator = tempLabel
+        self.label4L10004HA1E4Discriminator = tempLabel
+        self.label4L10004HT294Discriminator = tempLabel
+        self.label4L10004MCF74Discriminator = tempLabel
+        self.label4L10004PC34Discriminator = tempLabel
+
+  # ===== Get label for classification =====
+  def getLabels4Classification(self):
+    path4LabelNPY = os.path.join(self.path4Data, "Label", "Label_6052SAMPLE.npy")
+
+    self.label4Classification = np.load(path4LabelNPY)
 

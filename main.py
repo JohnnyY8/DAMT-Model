@@ -59,16 +59,6 @@ flags.DEFINE_integer(
     "Dimension for embedding.")
 
 flags.DEFINE_integer(
-    "num4FeatureTypes",
-    3,
-    "Number of feature types.")
-
-flags.DEFINE_integer(
-    "num4Features4Instance",
-    7,
-    "Number of features for each instance.")
-
-flags.DEFINE_integer(
     "batchSize",
     128,
     "Batch size for training.")
@@ -77,6 +67,16 @@ flags.DEFINE_integer(
     "displayStep",
     100,
     "Steps for displaying training procedure.")
+
+flags.DEFINE_integer(
+    "num4Data",
+    6052,
+    "Number of all data.")
+
+flags.DEFINE_integer(
+    "num4Features4Instance",
+    7,
+    "Number of features for each instance.")
 
 flags.DEFINE_integer(
     "num4Classes",
