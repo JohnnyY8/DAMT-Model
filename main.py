@@ -74,11 +74,6 @@ flags.DEFINE_integer(
     "Number of all data.")
 
 flags.DEFINE_integer(
-    "num4Features4Instance",
-    7,
-    "Number of features for each instance.")
-
-flags.DEFINE_integer(
     "num4Classes",
     14,
     "Number of classeses.")

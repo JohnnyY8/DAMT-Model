@@ -1,4 +1,4 @@
-#coding = utf-8
+# coding = utf-8
 
 import os
 import math
@@ -15,9 +15,9 @@ class CNNModel(CommonModelFunc):
 
   # Get a graph for base CNN model
   def getCNNModel(self):
-    num4Features = self.FLAGS.num4Features
-    num4FeatureTypes = self.FLAGS.num4FeatureTypes
     num4Classes = self.FLAGS.num4Classes
+    num4FeatureTypes = self.insDataPro.num4FeatureTypes
+    num4Features4Instance = self.insDataPro.num4Features4Instance
 
     self.keepProb = tf.placeholder(
         tf.float32,
