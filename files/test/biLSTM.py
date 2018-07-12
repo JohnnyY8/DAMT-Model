@@ -1,3 +1,5 @@
+# coding=utf-8
+# 谢凌伟
 """ Bi-directional Recurrent Neural Network.
 A Bi-directional Recurrent Neural Network (LSTM) implementation example using 
 TensorFlow library. This example is using the MNIST database of handwritten 

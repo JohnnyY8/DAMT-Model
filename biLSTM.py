@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 
 import os
 import math
@@ -18,9 +18,9 @@ class BiLSTM(CommonModelFunc):
   def getBiLSTM(self):
     # Network Parameters
     num4Input = self.FLAGS.embeddingDimension  # Same as the shape of output from hROIPooling
-    timeSteps = self.FLAGS.num4Features4Instance  # Same as number of features for each instance
+    timeStep = self.FLAGS.num4Feature4Instance  # Same as number of features for each instance
     num4Hidden4LSTM = self.FLAGS.num4Hidden4LSTM  # The dimensionality of hidden output
-    num4Classes = self.FLAGS.num4Classes  # The number of ATC classes
+    num4Class = self.FLAGS.num4Class  # The number of ATC classes
 
     # ===== LSTM layer =====
     with tf.variable_scope("lstmLayer"):

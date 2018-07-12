@@ -1,4 +1,4 @@
-#coding=utf-8
+# coding=utf-8
 
 import os
 import math
@@ -9,10 +9,9 @@ from commonModelFunc import *
 
 class Discriminator(CommonModelFunc):
 
-  def __init__(self, FLAGS, insCNNModel, insDataPro):
+  def __init__(self, FLAGS, insCNNModel):
     self.FLAGS = FLAGS
     self.insCNNModel = insCNNModel
-    self.insDataPro = insDataPro  # TODO
 
   # Get a graph for discriminator
   def getDiscriminator(self):

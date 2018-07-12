@@ -2,9 +2,9 @@
 
 import os
 
-basePath = "/home/xlw/Git-Repo/Domain-Adversarial/files/scripts"
+basePath = "/home/xlw/Git-Repo/Domain-Adversarial/files/data/Label"
 
-path4Label = os.path.join(basePath, "Label.txt")
+path4Label = os.path.join(basePath, "Label_6052SAMPLE.txt")
 
 with open(path4Label, "rb") as fileP:
   fileLines = fileP.readlines()

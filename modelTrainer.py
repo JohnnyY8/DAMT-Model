@@ -29,12 +29,19 @@ class ModelTrainer:
     self.insResultStorer.saveTrainLabel(self.yTrain)
     self.insResultStorer.saveValidationLabel(self.yTest)
 
-    with tf.Session() as sess:
-      oldTrainAccu, newTrainAccu, bestValAccu = 0.0, 0.0, 0.0
-      flag, num4Epoches = 0, 0
+    bestValAccu = 0, 0.0
+    batchSize = self.FLAGS.batchSize
 
-    saver = tf.train.Saver()
-    sess.run(self.init)
+    with tf.Session() as sess:
+      saver = tf.train.Saver()
+      sess.run(self.init)
+
+      for i in xrange(self.FLAGS.num4Epoches):
+        print("No.%d epoch started." %(i))
+        ind4xTrainIndex = np.array(range(self.xTrainIndex.shape[0]))
+        random.shuffle(ind4xTrainIndex)
+        for j in xrange(0, ind4xTrainIndex.shape[0], batchSize):
+         
 
 
   # Traing and validation for discriminator
