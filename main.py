@@ -100,6 +100,9 @@ if __name__ == "__main__":
 
   # Load data
   insDataPro = DataPro(FLAGS)
+  insDataPro.getData()
+  insDataPro.getLabels4Discriminator()
+  insDataPro.getLabels4Classification()
 
   # Get cnn model
   insCNNModel = CNNModel(FLAGS, insDataPro)
