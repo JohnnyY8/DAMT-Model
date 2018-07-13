@@ -19,9 +19,9 @@ class CNNModel(CommonModelFunc):
     num4FeatureTypes = self.insDataPro.num4FeatureTypes
     num4Features4Instance = self.insDataPro.num4Features4Instance
 
-    self.keepProb = tf.placeholder(
-        tf.float32,
-        name = "keepProb")
+    #self.keepProb = tf.placeholder(
+    #    tf.float32,
+    #    name = "keepProb")
 
     # ===== Input layer =====
     with tf.variable_scope("inputLayer"):
@@ -54,9 +54,10 @@ class CNNModel(CommonModelFunc):
       name4W, name4B = "wConv1", "bConv1"
       name4Z, name4H = "zConv1", "hConv1"
 
-      # IC and OC are input channels and output channels for short.
-      # IC and OC in Conv1 are 1, 320.
-      num4IC, num4OC = self.FLAGS.num4IC4Conv1, self.FLAGS.num4OC4Conv1
+      # Input channels and output channels in Conv1 are 1, 320
+      num4InputChannels, num4OoutputChannels = \
+          self.FLAGS.num4InputChannels4Conv1, \
+          self.FLAGS.num4OutputChannels4Conv1
 
       conv1KHeight, conv1KWidth = 1, 8
       conv1SHeight, conv1SWidth = 1, 1
@@ -65,12 +66,12 @@ class CNNModel(CommonModelFunc):
           name4W,
           [conv1KHeight,
            conv1KWidth,
-           num4IC,
-           num4OC])
+           num4InputChannels,
+           num4OutputChannels])
 
       bConv1 = self.init_bias_variable(
           name4B,
-          [num4OC])
+          [num4OutputChannels])
 
       zConv1 = tf.add(
           self.conv2d(
@@ -105,9 +106,10 @@ class CNNModel(CommonModelFunc):
       name4W, name4B = "wConv2", "bConv2"
       name4Z, name4H = "zConv2", "hConv2"
 
-      # IC and OC are input channels and output channels for short.
-      # IC and OC in Conv2 are 320, 480.
-      num4IC, num4OC = self.FLAGS.num4IC4Conv2, self.FLAGS.num4OC4Conv2
+      # Input channels and output channels in Conv2 are 320, 480
+      num4InputChannels, num4OutputChannels = \
+          self.FLAGS.num4InputChannels4Conv2, \
+          self.FLAGS.num4OutputChannelsC4Conv2
 
       conv2KHeight, conv2KWidth = 1, 8
       conv2SHeight, conv2SWidth = 1, 1
@@ -116,12 +118,12 @@ class CNNModel(CommonModelFunc):
           name4W,
           [conv2KHeight,
            conv2KWidth,
-           num4IC,
-           num4OC])
+           num4InputChannels,
+           num4OutputChannels])
 
       bConv2 = self.init_bias_variable(
           name4B,
-          [num4OC])
+          [num4OutputChannels])
 
       zConv2 = tf.add(
           self.conv2d(
@@ -156,9 +158,10 @@ class CNNModel(CommonModelFunc):
       name4W, name4B = "wConv3", "bConv3"
       name4Z, name4H = "zConv3", "hConv3"
 
-      # IC and OC are input channels and output channels for short.
-      # IC and OC in Conv2 are 480, 960.
-      num4IC, num4OC = self.FLAGS.num4IC4Conv3, self.FLAGS.num4OC4Conv3
+      # Input channels and output channels in Conv3 are 480, 960.
+      num4InputChannels, num4OutputChannels = \
+          self.FLAGS.num4InputChannels4Conv3, \
+          self.FLAGS.num4OutputChannels4Conv3
 
       conv3KHeight, conv3KWidth = 1, 8
       conv3SHeight, conv3SWidth = 1, 1
@@ -167,12 +170,12 @@ class CNNModel(CommonModelFunc):
           name4W,
           [conv3KHeight,
            conv3KWidth,
-           num4IC,
-           num4OC])
+           num4InputChannels,
+           num4OutputChannels])
 
       bConv3 = self.init_bias_variable(
           name4B,
-          [num4OC])
+          [num4OutputChannels])
 
       zConv3 = tf.add(
           self.conv2d(
@@ -191,11 +194,11 @@ class CNNModel(CommonModelFunc):
     with tf.variable_scope("appendingLayer"):
       name4H = "input4FixedSize"
 
-      # FM means feature map for short.
-      len4AllFM = self.shape4hConv3[1] * self.shape4hConv3[2] * self.shape4hConv3[3]  # TODO check the shape4hConv3[1]
+      len4AllFeatureMaps = \
+          self.shape4hConv3[1] * self.shape4hConv3[2] * self.shape4hConv3[3]  # TODO check the shape4hConv3[1]
       self.input4FixedSize = tf.reshape(
           self.hConv3,
-          [-1, 1, len4AllFM, 1],
+          [-1, 1, len4AllFeatureMaps, 1],
           name = name4H)
 
     # ===== ROI pooling layer =====
