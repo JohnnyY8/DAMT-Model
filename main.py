@@ -25,8 +25,13 @@ flags.DEFINE_string(
 
 flags.DEFINE_string(
     "path4Data",
-    "./files/data",
+    "./files/data/Sample",
     "Path for all data.")
+
+flags.DEFINE_string(
+    "path4Label",
+    "./files/data/Label",
+    "Path for all label.")
 
 flags.DEFINE_string(
     "path4TrainedModel",

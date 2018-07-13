@@ -14,21 +14,21 @@ class DataPro:
 
   # ===== Get feature data =====
   def getData(self):
-    path4Sample = os.path.join(self.path4Data, "Sample")
+    path4Data, path4Label = self.FLAGS.path4Data, self.FLAGS.path4Label
 
     for featureType in self.featureTypes:
       if featureType == "DrugFingerPrint":
-        self.data4DrugFingerPrint = np.load(os.path.join(path4Sample, "DrugFingerPrint", "DrugfingerPrint_6052SAMPLE.npy"))
+        self.data4DrugFingerPrint = np.load(os.path.join(path4Data, "DrugFingerPrint", "DrugfingerPrint_6052SAMPLE.npy"))
         self.num4Features4Instance += 1
       elif featureType == "DrugPhy":
-        self.data4DrugPht = np.load(os.path.join(path3Sample, "DrugPhy", "DrugPhy_6052SAMPLE.npy"))
+        self.data4DrugPht = np.load(os.path.join(path4Data, "DrugPhy", "DrugPhy_6052SAMPLE.npy"))
         self.num4Features4Instance += 1
       elif featureType == "L1000":
-        self.data4L10004A375 = np.load(os.path.join(path4Sample, "L1000", "L1000_A375_6052SAMPLE.npy"))
-        self.data4L10004HA1E = np.load(os.path.join(path4Sample, "L1000", "L1000_HA1E_6052SAMPLE.npy"))
-        self.data4L10004HT29 = np.load(os.path.join(path4Sample, "L1000", "L1000_HT29_6052SAMPLE.npy"))
-        self.data4L10004MCF7 = np.load(os.path.join(path4Sample, "L1000", "L1000_MCF7_6052SAMPLE.npy"))
-        self.data4L10004PC3 = np.load(os.path.join(path4Sample, "L1000", "L1000_PC3_6052SAMPLE.npy"))
+        self.data4L10004A375 = np.load(os.path.join(path4Data, "L1000", "L1000_A375_6052SAMPLE.npy"))
+        self.data4L10004HA1E = np.load(os.path.join(path4Data, "L1000", "L1000_HA1E_6052SAMPLE.npy"))
+        self.data4L10004HT29 = np.load(os.path.join(path4Data, "L1000", "L1000_HT29_6052SAMPLE.npy"))
+        self.data4L10004MCF7 = np.load(os.path.join(path4Data, "L1000", "L1000_MCF7_6052SAMPLE.npy"))
+        self.data4L10004PC3 = np.load(os.path.join(path4Data, "L1000", "L1000_PC3_6052SAMPLE.npy"))
         self.num4Features4Instance += 5
 
   # ===== Get feature types as label for discriminator =====
@@ -52,7 +52,7 @@ class DataPro:
 
   # ===== Get label for classification =====
   def getLabels4Classification(self):
-    path4LabelNPY = os.path.join(self.path4Data, "Label", "Label_6052SAMPLE.npy")
+    path4LabelNPY = os.path.join(self.FLAGS.path4Label, "Label_6052SAMPLE.npy")
 
     self.label4Classification = np.load(path4LabelNPY)
 
