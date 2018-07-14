@@ -4,6 +4,8 @@ import os
 import numpy as np
 import tensorflow as tf
 
+from sklearn.model_selection import train_test_split
+
 class DataPro:
 
   def __init__(self, FLAGS):
@@ -19,9 +21,11 @@ class DataPro:
     for featureType in self.featureTypes:
       if featureType == "DrugFingerPrint":
         self.data4DrugFingerPrint = np.load(os.path.join(path4Data, "DrugFingerPrint", "DrugfingerPrint_6052SAMPLE.npy"))
+        self.num4Features4DrugFingerPrint = self.data4DrugFingerprint.shape[1]
         self.num4Features4Instance += 1
       elif featureType == "DrugPhy":
-        self.data4DrugPht = np.load(os.path.join(path4Data, "DrugPhy", "DrugPhy_6052SAMPLE.npy"))
+        self.data4DrugPhy = np.load(os.path.join(path4Data, "DrugPhy", "DrugPhy_6052SAMPLE.npy"))
+        self.num4Features4DrugPhy = self.data4DrugPhy.shape[1]
         self.num4Features4Instance += 1
       elif featureType == "L1000":
         self.data4L10004A375 = np.load(os.path.join(path4Data, "L1000", "L1000_A375_6052SAMPLE.npy"))
@@ -29,6 +33,7 @@ class DataPro:
         self.data4L10004HT29 = np.load(os.path.join(path4Data, "L1000", "L1000_HT29_6052SAMPLE.npy"))
         self.data4L10004MCF7 = np.load(os.path.join(path4Data, "L1000", "L1000_MCF7_6052SAMPLE.npy"))
         self.data4L10004PC3 = np.load(os.path.join(path4Data, "L1000", "L1000_PC3_6052SAMPLE.npy"))
+        self.num4Features4L1000 = self.data4L1000A375.shape[1]
         self.num4Features4Instance += 5
 
   # ===== Get feature types as label for discriminator =====
@@ -55,4 +60,17 @@ class DataPro:
     path4LabelNPY = os.path.join(self.FLAGS.path4Label, "Label_6052SAMPLE.npy")
 
     self.label4Classification = np.load(path4LabelNPY)
+
+  # ===== Split data into train and validation set =====
+  def splitData2TrainAndVal(self):
+    # Split index, because too many feature types
+    index = np.array(range(0, self.FLAGS.num4Data))
+
+    xTrainIndex, xTestIndex, yTrainIndex, yTestIndex = train_test_split(
+        index,
+        index,
+        test_size = self.FLAGS.testSize,
+        randome_state = 24)
+
+    return xTrainIndex, xTestIndex, yTrainIndex, yTestIndex
 
