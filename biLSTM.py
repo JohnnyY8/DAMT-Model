@@ -10,17 +10,18 @@ from tensorflow.contrib import rnn
 
 class BiLSTM(CommonModelFunc):
 
-  def __init__(self, FLAGS, insCNNModel):
+  def __init__(self, FLAGS, insDataPro, insCNNModel):
     self.FLAGS = FLAGS
+    self.insDataPro = insDataPro
     self.insCNNModel = insCNNModel
 
   # Get a graph for bidirectional LSTM
   def getBiLSTM(self):
     # Network Parameters
     num4Input = self.FLAGS.embeddingDimension  # Same as the shape of output from hROIPooling
-    timeStep = self.FLAGS.num4Feature4Instance  # Same as number of features for each instance
-    num4Hidden4LSTM = self.FLAGS.num4Hidden4LSTM  # The dimensionality of hidden output
-    num4Class = self.FLAGS.num4Class  # The number of ATC classes
+    timeStep = self.insDataPro.num4Features4Instance  # Same as number of features for each instance
+    num4HiddenUnits4LSTM = self.FLAGS.num4HiddenUnits4LSTM  # The dimensionality of hidden output
+    num4Classes = self.FLAGS.num4Classes  # The number of ATC classes
 
     # ===== LSTM layer =====
     with tf.variable_scope("lstmLayer"):
@@ -29,7 +30,7 @@ class BiLSTM(CommonModelFunc):
 
       output4LSTMW = self.init_weight_variable(
           name4W,
-          [num4Hidden4LSTM,
+          [num4HiddenUnits4LSTM,
            num4Classes])
 
       output4LSTMB = self.init_bias_variable(
@@ -41,8 +42,8 @@ class BiLSTM(CommonModelFunc):
       # Forward direction cell
       # Backward direction cell
       ###################################
-      lstmFwCell = rnn.BasicLSTMCell(num4Hidden4LSTM, forget_bias = 1.0)
-      lstmFwCell = rnn.BasicLSTMCell(num4Hidden4LSTM, forget_bias = 1.0)
+      lstmFwCell = rnn.BasicLSTMCell(num4HiddenUnits4LSTM, forget_bias = 1.0)
+      lstmBwCell = rnn.BasicLSTMCell(num4HiddenUnits4LSTM, forget_bias = 1.0)
 
       # Get lstm cell output
       try:
@@ -50,13 +51,13 @@ class BiLSTM(CommonModelFunc):
             lstmFwCell,
             lstmBwCell,
             self.insCNNModel.output4FixedSize,
-            dtype=tf.float32)
+            dtype = tf.float32)
       except Exception:  # Old TensorFlow version only returns outputs not states
         self.hiddenOutputs = rnn.static_bidirectional_rnn(
             lstmFwCell,
             lstmBwCell,
             self.insCNNModel.output4FixedSize,
-            dtype=tf.float32)
+            dtype = tf.float32)
 
       self.output4LSTMZ = tf.add(
           tf.matmul(

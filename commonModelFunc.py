@@ -32,16 +32,17 @@ class CommonModelFunc:
         padding = 'SAME')
 
   # Max pooling operation
-  def max_pool(self, x, k_height, k_width, s_height, s_width):
+  def max_pool(self, x, k_height, k_width, s_height, s_width, varName):
     # ksize: first 1 and last 1 because we don't want to
     #     take the maximum over multiple exameples or over multiple channels.
     # strides: A list of ints that has length >= 4.
     #     The stride of the sliding window for each dimension of the input tensor.
     return tf.nn.max_pool(
         x,
-        ksize = [1, k_hegith, k_width, 1],
+        ksize = [1, k_height, k_width, 1],
         strides = [1, s_height, s_width, 1],
-        padding='SAME')
+        padding='SAME',
+        name = varName)
 
   # Average pooling operation
   def avg_pool(self, x, k_height, k_width, s_height, s_width):

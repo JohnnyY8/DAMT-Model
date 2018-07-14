@@ -59,6 +59,41 @@ flags.DEFINE_float(
     "Threshold for classification.")
 
 flags.DEFINE_integer(
+    "num4InputChannels4Input",
+    1,
+    "Number of input channels for input layer.")
+
+flags.DEFINE_integer(
+    "num4InputChannels4Conv1",
+    1,
+    "Number of input channels for conv1 layer.")
+
+flags.DEFINE_integer(
+    "num4OutputChannels4Conv1",
+    320,
+    "Number of output channels for conv1 layer.")
+
+flags.DEFINE_integer(
+    "num4InputChannels4Conv2",
+    320,
+    "Number of input channels for conv2 layer.")
+
+flags.DEFINE_integer(
+    "num4OutputChannels4Conv2",
+    480,
+    "Number of output channels for conv2 layer.")
+
+flags.DEFINE_integer(
+    "num4InputChannels4Conv3",
+    480,
+    "Number of input channels for conv3 layer.")
+
+flags.DEFINE_integer(
+    "num4OutputChannels4Conv3",
+    960,
+    "Number of output channels for conv3 layer.")
+
+flags.DEFINE_integer(
     "embeddingDimension",
     10,
     "Dimension for embedding.")
@@ -89,7 +124,7 @@ flags.DEFINE_integer(
     "Epoches for training.")
 
 flags.DEFINE_integer(
-    "num4Hidden4LSTM",
+    "num4HiddenUnits4LSTM",
     128,
     "Number of hidden units in LSTM.")
 
@@ -112,7 +147,7 @@ if __name__ == "__main__":
   #insDiscriminator = Discriminator(FLAGS, insCNNModel)
 
   # Get biLSTM
-  insBiLSTM = BiLSTM(FLAGS, insCNNModel)
+  insBiLSTM = BiLSTM(FLAGS, insDataPro, insCNNModel)
   insBiLSTM.getBiLSTM()
 
   # Get trainer for biLSTM

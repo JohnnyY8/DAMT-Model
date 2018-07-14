@@ -161,7 +161,7 @@ class CNNModel(CommonModelFunc):
       # W and B are weight and bias for short.
       # Z means before activation, H means activation value.
       name4W, name4B = "conv1W", "conv1B"
-      name4Z4DrugFingerPrint, name4H4DrugFingerPring = \
+      name4Z4DrugFingerPrint, name4H4DrugFingerPrint = \
           "conv1Z4DrungFingerPrint", "conv1H4DrugFingerPrint"
       name4Z4DrugPhy, name4H4DrugPhy = "conv1Z4DrugPhy", "conv1H4DrugPhy"
       name4Z4L1000A375, name4H4L1000A375 = "conv1Z4L1000A375", "conv1H4L1000A375"
@@ -309,7 +309,7 @@ class CNNModel(CommonModelFunc):
           pool1KWidth,
           pool1SHeight,
           pool1SWidth,
-          name = name4H4DrugFingerPrint)
+          name4H4DrugFingerPrint)
 
       # Action for drug phy
       self.pooling1H4DrugPhy = self.max_pool(
@@ -318,7 +318,7 @@ class CNNModel(CommonModelFunc):
           pool1KWidth,
           pool1SHeight,
           pool1SWidth,
-          name = name4H4DrugPhy)
+          name4H4DrugPhy)
 
       # Action for L1000 A375
       self.pooling1H4L1000A375 = self.max_pool(
@@ -327,7 +327,7 @@ class CNNModel(CommonModelFunc):
           pool1KWidth,
           pool1SHeight,
           pool1SWidth,
-          name = name4H4L1000A375)
+          name4H4L1000A375)
 
       # Action for L1000 HA1E
       self.pooling1H4L1000HA1E = self.max_pool(
@@ -336,7 +336,7 @@ class CNNModel(CommonModelFunc):
           pool1KWidth,
           pool1SHeight,
           pool1SWidth,
-          name = name4H4L1000HA1E)
+          name4H4L1000HA1E)
 
       # Action for L1000 HT29
       self.pooling1H4L1000HT29 = self.max_pool(
@@ -345,7 +345,7 @@ class CNNModel(CommonModelFunc):
           pool1KWidth,
           pool1SHeight,
           pool1SWidth,
-          name = name4H4L1000HT29)
+          name4H4L1000HT29)
 
       # Action for L1000 MCF7
       self.pooling1H4L1000MCF7 = self.max_pool(
@@ -354,7 +354,7 @@ class CNNModel(CommonModelFunc):
           pool1KWidth,
           pool1SHeight,
           pool1SWidth,
-          name = name4H4L1000MCF7)
+          name4H4L1000MCF7)
 
       # Action for L1000 PC3
       self.pooling1H4L1000PC3 = self.max_pool(
@@ -363,7 +363,7 @@ class CNNModel(CommonModelFunc):
           pool1KWidth,
           pool1SHeight,
           pool1SWidth,
-          name = name4H4L1000PC3)
+          name4H4L1000PC3)
 
 
     # ===== Second convolutional layer =====
@@ -384,7 +384,7 @@ class CNNModel(CommonModelFunc):
       # Input channels and output channels in Conv2 are 320, 480
       num4InputChannels, num4OutputChannels = \
           self.FLAGS.num4InputChannels4Conv2, \
-          self.FLAGS.num4OutputChannelsC4Conv2
+          self.FLAGS.num4OutputChannels4Conv2
 
       conv2KHeight, conv2KWidth = 1, 8
       conv2SHeight, conv2SWidth = 1, 1
@@ -519,7 +519,7 @@ class CNNModel(CommonModelFunc):
           pool2KWidth,
           pool2SHeight,
           pool2SWidth,
-          name = name4H4DrugFingerPrint)
+          name4H4DrugFingerPrint)
 
       # Action for drug phy
       self.pooling2H4DrugPhy = self.max_pool(
@@ -528,7 +528,7 @@ class CNNModel(CommonModelFunc):
           pool2KWidth,
           pool2SHeight,
           pool2SWidth,
-          name = name4H4DrugPhy)
+          name4H4DrugPhy)
 
       # Action for L1000 A375
       self.pooling2H4L1000A375 = self.max_pool(
@@ -537,7 +537,7 @@ class CNNModel(CommonModelFunc):
           pool2KWidth,
           pool2SHeight,
           pool2SWidth,
-          name = name4H4L1000A375)
+          name4H4L1000A375)
 
       # Action for L1000 HA1E
       self.pooling2H4L1000HA1E = self.max_pool(
@@ -546,7 +546,7 @@ class CNNModel(CommonModelFunc):
           pool2KWidth,
           pool2SHeight,
           pool2SWidth,
-          name = name4H4L1000HA1E)
+          name4H4L1000HA1E)
 
       # Action for L1000 HT29
       self.pooling2H4L1000HT29 = self.max_pool(
@@ -555,7 +555,7 @@ class CNNModel(CommonModelFunc):
           pool2KWidth,
           pool2SHeight,
           pool2SWidth,
-          name = name4H4L1000HT29)
+          name4H4L1000HT29)
 
       # Action for L1000 MCF7
       self.pooling2H4L1000MCF7 = self.max_pool(
@@ -564,7 +564,7 @@ class CNNModel(CommonModelFunc):
           pool2KWidth,
           pool2SHeight,
           pool2SWidth,
-          name = name4H4L1000MCF7)
+          name4H4L1000MCF7)
 
       # Action for L1000 PC3
       self.pooling2H4L1000PC3 = self.max_pool(
@@ -573,7 +573,7 @@ class CNNModel(CommonModelFunc):
           pool2KWidth,
           pool2SHeight,
           pool2SWidth,
-          name = name4H4L1000PC3)
+          name4H4L1000PC3)
 
 
     # ===== Third convolutional layer =====
@@ -742,9 +742,9 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for drug finger print
       len4FeatureMaps4DrugFingerPrint = \
-          self.shape4conv3H4DrugFingerPrint[1] * \
-          self.shape4conv3H4DrugFingerPrint[2] * \
-          self.shape4conv3H4DrugFingerPrint[3]
+          self.shape4Conv3H4DrugFingerPrint[1] * \
+          self.shape4Conv3H4DrugFingerPrint[2] * \
+          self.shape4Conv3H4DrugFingerPrint[3]
       self.input4FixedSize4DrugFingerPrint = tf.reshape(
           self.conv3H4DrugFingerPrint,
           [-1,
@@ -755,9 +755,9 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for drug phy
       len4FeatureMaps4DrugPhy = \
-          self.shape4conv3H4DrugPhy[1] * \
-          self.shape4conv3H4DrugPhy[2] * \
-          self.shape4conv3H4DrugPhy[3]
+          self.shape4Conv3H4DrugPhy[1] * \
+          self.shape4Conv3H4DrugPhy[2] * \
+          self.shape4Conv3H4DrugPhy[3]
       self.input4FixedSize4DrugPhy = tf.reshape(
           self.conv3H4DrugPhy,
           [-1,
@@ -768,9 +768,9 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 A375
       len4FeatureMaps4L1000A375 = \
-          self.shape4conv3H4L1000A375[1] * \
-          self.shape4conv3H4L1000A375[2] * \
-          self.shape4conv3H4L1000A375[3]
+          self.shape4Conv3H4L1000A375[1] * \
+          self.shape4Conv3H4L1000A375[2] * \
+          self.shape4Conv3H4L1000A375[3]
       self.input4FixedSize4L1000A375 = tf.reshape(
           self.conv3H4L1000A375,
           [-1,
@@ -781,9 +781,9 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 HA1E
       len4FeatureMaps4L1000HA1E = \
-          self.shape4conv3H4L1000HA1E[1] * \
-          self.shape4conv3H4L1000HA1E[2] * \
-          self.shape4conv3H4L1000HA1E[3]
+          self.shape4Conv3H4L1000HA1E[1] * \
+          self.shape4Conv3H4L1000HA1E[2] * \
+          self.shape4Conv3H4L1000HA1E[3]
       self.input4FixedSize4L1000HA1E = tf.reshape(
           self.conv3H4L1000HA1E,
           [-1,
@@ -794,9 +794,9 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 HT29
       len4FeatureMaps4L1000HT29 = \
-          self.shape4conv3H4L1000HT29[1] * \
-          self.shape4conv3H4L1000HT29[2] * \
-          self.shape4conv3H4L1000HT29[3]
+          self.shape4Conv3H4L1000HT29[1] * \
+          self.shape4Conv3H4L1000HT29[2] * \
+          self.shape4Conv3H4L1000HT29[3]
       self.input4FixedSize4L1000HT29 = tf.reshape(
           self.conv3H4L1000HT29,
           [-1,
@@ -807,9 +807,9 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 MCF7
       len4FeatureMaps4L1000MCF7 = \
-          self.shape4conv3H4L1000MCF7[1] * \
-          self.shape4conv3H4L1000MCF7[2] * \
-          self.shape4conv3H4L1000MCF7[3]
+          self.shape4Conv3H4L1000MCF7[1] * \
+          self.shape4Conv3H4L1000MCF7[2] * \
+          self.shape4Conv3H4L1000MCF7[3]
       self.input4FixedSize4L1000MCF7 = tf.reshape(
           self.conv3H4L1000MCF7,
           [-1,
@@ -820,9 +820,9 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 PC3
       len4FeatureMaps4L1000PC3 = \
-          self.shape4conv3H4L1000PC3[1] * \
-          self.shape4conv3H4L1000PC3[2] * \
-          self.shape4conv3H4L1000PC3[3]
+          self.shape4Conv3H4L1000PC3[1] * \
+          self.shape4Conv3H4L1000PC3[2] * \
+          self.shape4Conv3H4L1000PC3[3]
       self.input4FixedSize4L1000PC3 = tf.reshape(
           self.conv3H4L1000PC3,
           [-1,
@@ -854,7 +854,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingKWidth4DrugFingerPrint,
           roiPoolingSHeight4DrugFingerPrint,
           roiPoolingSWidth4DrugFingerPrint,
-          name = name4H4DrugFingerPrint)
+          name4H4DrugFingerPrint)
 
       # ROI pooling for drug phy
       roiPoolingKHeight4DrugPhy, roiPoolingKWidth4DrugPhy = \
@@ -868,7 +868,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingKWidth4DrugPhy,
           roiPoolingSHeight4DrugPhy,
           roiPoolingSWidth4DrugPhy,
-          name = name4H4DrugPhy)
+          name4H4DrugPhy)
 
       # ROI pooling for L1000 A375
       roiPoolingKHeight4L1000A375, roiPoolingKWidth4L1000A375 = \
@@ -882,7 +882,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingKWidth4L1000A375,
           roiPoolingSHeight4L1000A375,
           roiPoolingSWidth4L1000A375,
-          name = name4H4L1000A375)
+          name4H4L1000A375)
 
       # ROI pooling for L1000 HA1E
       roiPoolingKHeight4L1000HA1E, roiPoolingKWidth4L1000HA1E = \
@@ -896,7 +896,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingKWidth4L1000HA1E,
           roiPoolingSHeight4L1000HA1E,
           roiPoolingSWidth4L1000HA1E,
-          name = name4H4L1000HA1E)
+          name4H4L1000HA1E)
 
       # ROI pooling for L1000 HT29
       roiPoolingKHeight4L1000HT29, roiPoolingKWidth4L1000HT29 = \
@@ -910,7 +910,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingKWidth4L1000HT29,
           roiPoolingSHeight4L1000HT29,
           roiPoolingSWidth4L1000HT29,
-          name = name4H4L1000HT29)
+          name4H4L1000HT29)
 
       # ROI pooling for L1000 MCF7
       roiPoolingKHeight4L1000MCF7, roiPoolingKWidth4L1000MCF7 = \
@@ -924,7 +924,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingKWidth4L1000MCF7,
           roiPoolingSHeight4L1000MCF7,
           roiPoolingSWidth4L1000MCF7,
-          name = name4H4L1000MCF7)
+          name4H4L1000MCF7)
 
       # ROI pooling for L1000 PC3
       roiPoolingKHeight4L1000PC3, roiPoolingKWidth4L1000PC3 = \
@@ -938,7 +938,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingKWidth4L1000PC3,
           roiPoolingSHeight4L1000PC3,
           roiPoolingSWidth4L1000PC3,
-          name = name4H4L1000PC3)
+          name4H4L1000PC3)
 
 
     # ===== Concation layer =====
@@ -969,6 +969,11 @@ class CNNModel(CommonModelFunc):
       self.output4FixedSize = tf.concat(
           (self.output4FixedSize, self.roiPoolingH4L1000PC3),
           axis = 3)
+
+      self.output4FixedSize = tf.reshape(
+          self.output4FixedSize, [-1, 7, 10])
+
+      self.output4FixedSize = tf.unstack(self.output4FixedSize, 7)
 
     # ===== First fully connected layer =====  # TODO
 #    with tf.variable_scope("fc1Layer"):
