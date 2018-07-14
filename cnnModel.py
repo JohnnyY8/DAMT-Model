@@ -21,6 +21,7 @@ class CNNModel(CommonModelFunc):
     num4Features4L1000 = self.insDataPro.num4Features4L1000
     num4Features4DrugPhy = self.insDataPro.num4Features4DrugPhy
     num4Features4DrugFingerPrint = self.insDataPro.num4Features4DrugFingerPrint
+    embeddingDimension = self.FLAGS.embeddingDimension
 
     #self.keepProb = tf.placeholder(
     #    tf.float32,
@@ -833,50 +834,169 @@ class CNNModel(CommonModelFunc):
 
     # ===== ROI pooling layer =====
     with tf.variable_scope("roiPoolingLayer"):
-      name4H = "hROIPooling"
+      name4H4DrugFingerPrint = "roiPoolingH4DrugFingerPrint"
+      name4H4DrugPhy = "roiPoolingH4DrugFingerPhy"
+      name4H4L1000A375 = "roiPoolingH4L1000A375"
+      name4H4L1000HA1E = "roiPoolingH4L1000HA1E"
+      name4H4L1000HT29 = "roiPoolingH4L1000HT29"
+      name4H4L1000MCF7 = "roiPoolingH4L1000MCF7"
+      name4H4L1000PC3 = "roiPoolingH4L1000PC3"
 
-      roiPool1KHeight, roiPool1KWidth = 1, int(math.ceil(len4AllFM * 1.0 / num4FirstFC))  # TODO
-      roiPool1SHeight, roiPool1SWidth = 1, int(math.ceil(len4AllFM * 1.0 / num4FirstFC))  # TODO
+      # ROI pooling for drug finger print
+      roiPoolingKHeight4DrugFingerPrint, roiPoolingKWidth4DrugFingerPrint = \
+          1, int(math.ceil(len4FeatureMaps4DrugFingerPrint * 1.0 / embeddingDimension))
+      roiPoolingSHeight4DrugFingerPrint, roiPoolingSWidth4DrugFingerPrint = \
+          1, int(math.ceil(len4FeatureMaps4DrugFingerPrint * 1.0 / embeddingDimension))
 
-      # The dimensionality of hROIPooling is 925 TODO
-      self.hROIPooling = self.max_pool(
-          self.input4FixedSize,
-          pool1KHeight,
-          pool1KWidth,
-          pool1SHeight,
-          pool1SWidth,
-          name = name4H)
+      self.roiPoolingH4DrugFingerPrint = self.max_pool(
+          self.input4FixedSize4DrugFingerPrint,
+          roiPoolingKHeight4DrugFingerPrint,
+          roiPoolingKWidth4DrugFingerPrint,
+          roiPoolingSHeight4DrugFingerPrint,
+          roiPoolingSWidth4DrugFingerPrint,
+          name = name4H4DrugFingerPrint)
 
-      self.shape4hROIPooling = self.hROIPooling.get_shape().as_list()
+      # ROI pooling for drug phy
+      roiPoolingKHeight4DrugPhy, roiPoolingKWidth4DrugPhy = \
+          1, int(math.ceil(len4FeatureMaps4DrugPhy * 1.0 / embeddingDimension))
+      roiPoolingSHeight4DrugPhy, roiPoolingSWidth4DrugPhy = \
+          1, int(math.ceil(len4FeatureMaps4DrugPhy * 1.0 / embeddingDimension))
+
+      self.roiPoolingH4DrugPhy = self.max_pool(
+          self.input4FixedSize4DrugPhy,
+          roiPoolingKHeight4DrugPhy,
+          roiPoolingKWidth4DrugPhy,
+          roiPoolingSHeight4DrugPhy,
+          roiPoolingSWidth4DrugPhy,
+          name = name4H4DrugPhy)
+
+      # ROI pooling for L1000 A375
+      roiPoolingKHeight4L1000A375, roiPoolingKWidth4L1000A375 = \
+          1, int(math.ceil(len4FeatureMaps4L1000A375 * 1.0 / embeddingDimension))
+      roiPoolingSHeight4L1000A375, roiPoolingSWidth4L1000A375 = \
+          1, int(math.ceil(len4FeatureMaps4L1000A375 * 1.0 / embeddingDimension))
+
+      self.roiPoolingH4L1000A375 = self.max_pool(
+          self.input4FixedSize4L1000A375,
+          roiPoolingKHeight4L1000A375,
+          roiPoolingKWidth4L1000A375,
+          roiPoolingSHeight4L1000A375,
+          roiPoolingSWidth4L1000A375,
+          name = name4H4L1000A375)
+
+      # ROI pooling for L1000 HA1E
+      roiPoolingKHeight4L1000HA1E, roiPoolingKWidth4L1000HA1E = \
+          1, int(math.ceil(len4FeatureMaps4L1000HA1E * 1.0 / embeddingDimension))
+      roiPoolingSHeight4L1000HA1E, roiPoolingSWidth4L1000HA1E = \
+          1, int(math.ceil(len4FeatureMaps4L1000HA1E * 1.0 / embeddingDimension))
+
+      self.roiPoolingH4L1000HA1E = self.max_pool(
+          self.input4FixedSize4L1000HA1E,
+          roiPoolingKHeight4L1000HA1E,
+          roiPoolingKWidth4L1000HA1E,
+          roiPoolingSHeight4L1000HA1E,
+          roiPoolingSWidth4L1000HA1E,
+          name = name4H4L1000HA1E)
+
+      # ROI pooling for L1000 HT29
+      roiPoolingKHeight4L1000HT29, roiPoolingKWidth4L1000HT29 = \
+          1, int(math.ceil(len4FeatureMaps4L1000HT29 * 1.0 / embeddingDimension))
+      roiPoolingSHeight4L1000HT29, roiPoolingSWidth4L1000HT29 = \
+          1, int(math.ceil(len4FeatureMaps4L1000HT29 * 1.0 / embeddingDimension))
+
+      self.roiPoolingH4L1000HT29 = self.max_pool(
+          self.input4FixedSize4L1000HT29,
+          roiPoolingKHeight4L1000HT29,
+          roiPoolingKWidth4L1000HT29,
+          roiPoolingSHeight4L1000HT29,
+          roiPoolingSWidth4L1000HT29,
+          name = name4H4L1000HT29)
+
+      # ROI pooling for L1000 MCF7
+      roiPoolingKHeight4L1000MCF7, roiPoolingKWidth4L1000MCF7 = \
+          1, int(math.ceil(len4FeatureMaps4L1000MCF7 * 1.0 / embeddingDimension))
+      roiPoolingSHeight4L1000MCF7, roiPoolingSWidth4L1000MCF7 = \
+          1, int(math.ceil(len4FeatureMaps4L1000MCF7 * 1.0 / embeddingDimension))
+
+      self.roiPoolingH4L1000MCF7 = self.max_pool(
+          self.input4FixedSize4L1000MCF7,
+          roiPoolingKHeight4L1000MCF7,
+          roiPoolingKWidth4L1000MCF7,
+          roiPoolingSHeight4L1000MCF7,
+          roiPoolingSWidth4L1000MCF7,
+          name = name4H4L1000MCF7)
+
+      # ROI pooling for L1000 PC3
+      roiPoolingKHeight4L1000PC3, roiPoolingKWidth4L1000PC3 = \
+          1, int(math.ceil(len4FeatureMaps4L1000PC3 * 1.0 / embeddingDimension))
+      roiPoolingSHeight4L1000PC3, roiPoolingSWidth4L1000PC3 = \
+          1, int(math.ceil(len4FeatureMaps4L1000PC3 * 1.0 / embeddingDimension))
+
+      self.roiPoolingH4L1000PC3 = self.max_pool(
+          self.input4FixedSize4L1000PC3,
+          roiPoolingKHeight4L1000PC3,
+          roiPoolingKWidth4L1000PC3,
+          roiPoolingSHeight4L1000PC3,
+          roiPoolingSWidth4L1000PC3,
+          name = name4H4L1000PC3)
+
+
+    # ===== Concation layer =====
+    with tf.variable_scope("concationLayer"):
+      self.output4FixedSize = self.roiPoolingH4DrugFingerPrint
+
+      self.output4FixedSize = tf.concat(
+          (self.output4FixedSize, self.roiPoolingH4DrugPhy),
+          axis = 3)
+
+      self.output4FixedSize = tf.concat(
+          (self.output4FixedSize, self.roiPoolingH4L1000A375),
+          axis = 3)
+
+      self.output4FixedSize = tf.concat(
+          (self.output4FixedSize, self.roiPoolingH4L1000HA1E),
+          axis = 3)
+
+      self.output4FixedSize = tf.concat(
+          (self.output4FixedSize, self.roiPoolingH4L1000HT29),
+          axis = 3)
+
+      self.output4FixedSize = tf.concat(
+          (self.output4FixedSize, self.roiPoolingH4L1000MCF7),
+          axis = 3)
+
+      self.output4FixedSize = tf.concat(
+          (self.output4FixedSize, self.roiPoolingH4L1000PC3),
+          axis = 3)
 
     # ===== First fully connected layer =====  # TODO
-    with tf.variable_scope("fc1Layer"):
-      name4W, name4B = "wFC1", "bFC1"
-      name4Z, name4H = "zFC1", "hFC1"
-
-      input4FC1 = tf.reshape(self.input4FixedSize, [-1, len4AllFM])
-
-      wFC1 = self.init_weight_variable(
-          name4W,
-          [len4AllFM,
-           num4FC1])
-      #self.variable_summaries(wFC1)
-
-      bFC1 = self.init_bias_variable(
-          name4B,
-          [num4FC1])
-      #self.variable_summaries(bFC1)
-
-      zFC1 = tf.add(
-          tf.matmul(
-              input4FC1,
-              wFC1),
-          bFC1,
-          name = name4Z)
-      #self.variable_summaries(zFC1)
-
-      self.hFC1 = tf.nn.relu(
-          zFC1,
-          name = name4H)
-      #self.variable_summaries(self.hFC1)
+#    with tf.variable_scope("fc1Layer"):
+#      name4W, name4B = "wFC1", "bFC1"
+#      name4Z, name4H = "zFC1", "hFC1"
+#
+#      input4FC1 = tf.reshape(self.input4FixedSize, [-1, len4AllFM])
+#
+#      wFC1 = self.init_weight_variable(
+#          name4W,
+#          [len4AllFM,
+#           num4FC1])
+#      #self.variable_summaries(wFC1)
+#
+#      bFC1 = self.init_bias_variable(
+#          name4B,
+#          [num4FC1])
+#      #self.variable_summaries(bFC1)
+#
+#      zFC1 = tf.add(
+#          tf.matmul(
+#              input4FC1,
+#              wFC1),
+#          bFC1,
+#          name = name4Z)
+#      #self.variable_summaries(zFC1)
+#
+#      self.hFC1 = tf.nn.relu(
+#          zFC1,
+#          name = name4H)
+#      #self.variable_summaries(self.hFC1)
 
