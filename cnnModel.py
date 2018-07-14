@@ -742,7 +742,7 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for drug finger print
       len4FeatureMaps4DrugFingerPrint = \
-          self.shape4conv3H4DrugFingerPrint[1] * \  # TODO check the shape4hConv3[1]
+          self.shape4conv3H4DrugFingerPrint[1] * \
           self.shape4conv3H4DrugFingerPrint[2] * \
           self.shape4conv3H4DrugFingerPrint[3]
       self.input4FixedSize4DrugFingerPrint = tf.reshape(
@@ -755,7 +755,7 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for drug phy
       len4FeatureMaps4DrugPhy = \
-          self.shape4conv3H4DrugPhy[1] * \  # TODO check the shape4hConv3[1]
+          self.shape4conv3H4DrugPhy[1] * \
           self.shape4conv3H4DrugPhy[2] * \
           self.shape4conv3H4DrugPhy[3]
       self.input4FixedSize4DrugPhy = tf.reshape(
@@ -768,7 +768,7 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 A375
       len4FeatureMaps4L1000A375 = \
-          self.shape4conv3H4L1000A375[1] * \  # TODO check the shape4hConv3[1]
+          self.shape4conv3H4L1000A375[1] * \
           self.shape4conv3H4L1000A375[2] * \
           self.shape4conv3H4L1000A375[3]
       self.input4FixedSize4L1000A375 = tf.reshape(
@@ -781,7 +781,7 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 HA1E
       len4FeatureMaps4L1000HA1E = \
-          self.shape4conv3H4L1000HA1E[1] * \  # TODO check the shape4hConv3[1]
+          self.shape4conv3H4L1000HA1E[1] * \
           self.shape4conv3H4L1000HA1E[2] * \
           self.shape4conv3H4L1000HA1E[3]
       self.input4FixedSize4L1000HA1E = tf.reshape(
@@ -794,7 +794,7 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 HT29
       len4FeatureMaps4L1000HT29 = \
-          self.shape4conv3H4L1000HT29[1] * \  # TODO check the shape4hConv3[1]
+          self.shape4conv3H4L1000HT29[1] * \
           self.shape4conv3H4L1000HT29[2] * \
           self.shape4conv3H4L1000HT29[3]
       self.input4FixedSize4L1000HT29 = tf.reshape(
@@ -807,7 +807,7 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 MCF7
       len4FeatureMaps4L1000MCF7 = \
-          self.shape4conv3H4L1000MCF7[1] * \  # TODO check the shape4hConv3[1]
+          self.shape4conv3H4L1000MCF7[1] * \
           self.shape4conv3H4L1000MCF7[2] * \
           self.shape4conv3H4L1000MCF7[3]
       self.input4FixedSize4L1000MCF7 = tf.reshape(
@@ -820,7 +820,7 @@ class CNNModel(CommonModelFunc):
 
       # Length of all feature maps for L1000 PC3
       len4FeatureMaps4L1000PC3 = \
-          self.shape4conv3H4L1000PC3[1] * \  # TODO check the shape4hConv3[1]
+          self.shape4conv3H4L1000PC3[1] * \
           self.shape4conv3H4L1000PC3[2] * \
           self.shape4conv3H4L1000PC3[3]
       self.input4FixedSize4L1000PC3 = tf.reshape(
@@ -943,6 +943,7 @@ class CNNModel(CommonModelFunc):
 
     # ===== Concation layer =====
     with tf.variable_scope("concationLayer"):
+      #self.roiPoolingH4DrugfingerPrint = tf.reshape((-1, 
       self.output4FixedSize = self.roiPoolingH4DrugFingerPrint
 
       self.output4FixedSize = tf.concat(

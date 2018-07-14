@@ -106,9 +106,15 @@ if __name__ == "__main__":
 
   # Get cnn model
   insCNNModel = CNNModel(FLAGS, insDataPro)
+  insCNNModel.getCNNModel()
 
   # Get discriminator
-  insDiscriminator = Discriminator(FLAGS, insCNNModel)
+  #insDiscriminator = Discriminator(FLAGS, insCNNModel)
 
   # Get biLSTM
   insBiLSTM = BiLSTM(FLAGS, insCNNModel)
+  insBiLSTM.getBiLSTM()
+
+  # Get trainer for biLSTM
+  insModelTrainer4BiLSTM = ModelTrainer(FLAGS, insDataPro, insCNNModel, insBiLSTM)
+  insModelTrainer4BiLSTM.trainLSTM()

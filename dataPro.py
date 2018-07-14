@@ -20,19 +20,19 @@ class DataPro:
 
     for featureType in self.featureTypes:
       if featureType == "DrugFingerPrint":
-        self.data4DrugFingerPrint = np.load(os.path.join(path4Data, "DrugFingerPrint", "DrugfingerPrint_6052SAMPLE.npy"))
-        self.num4Features4DrugFingerPrint = self.data4DrugFingerprint.shape[1]
+        self.data4DrugFingerPrint = np.load(os.path.join(path4Data, "DrugFingerPrint", "DrugFingerPrint_6052SAMPLE.npy"))
+        self.num4Features4DrugFingerPrint = self.data4DrugFingerPrint.shape[1]
         self.num4Features4Instance += 1
       elif featureType == "DrugPhy":
         self.data4DrugPhy = np.load(os.path.join(path4Data, "DrugPhy", "DrugPhy_6052SAMPLE.npy"))
         self.num4Features4DrugPhy = self.data4DrugPhy.shape[1]
         self.num4Features4Instance += 1
       elif featureType == "L1000":
-        self.data4L10004A375 = np.load(os.path.join(path4Data, "L1000", "L1000_A375_6052SAMPLE.npy"))
-        self.data4L10004HA1E = np.load(os.path.join(path4Data, "L1000", "L1000_HA1E_6052SAMPLE.npy"))
-        self.data4L10004HT29 = np.load(os.path.join(path4Data, "L1000", "L1000_HT29_6052SAMPLE.npy"))
-        self.data4L10004MCF7 = np.load(os.path.join(path4Data, "L1000", "L1000_MCF7_6052SAMPLE.npy"))
-        self.data4L10004PC3 = np.load(os.path.join(path4Data, "L1000", "L1000_PC3_6052SAMPLE.npy"))
+        self.data4L1000A375 = np.load(os.path.join(path4Data, "L1000", "L1000_A375_6052SAMPLE.npy"))
+        self.data4L1000HA1E = np.load(os.path.join(path4Data, "L1000", "L1000_HA1E_6052SAMPLE.npy"))
+        self.data4L1000HT29 = np.load(os.path.join(path4Data, "L1000", "L1000_HT29_6052SAMPLE.npy"))
+        self.data4L1000MCF7 = np.load(os.path.join(path4Data, "L1000", "L1000_MCF7_6052SAMPLE.npy"))
+        self.data4L1000PC3 = np.load(os.path.join(path4Data, "L1000", "L1000_PC3_6052SAMPLE.npy"))
         self.num4Features4L1000 = self.data4L1000A375.shape[1]
         self.num4Features4Instance += 5
 
@@ -70,7 +70,7 @@ class DataPro:
         index,
         index,
         test_size = self.FLAGS.testSize,
-        randome_state = 24)
+        random_state = 24)
 
     return xTrainIndex, xTestIndex, yTrainIndex, yTestIndex
 

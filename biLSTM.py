@@ -24,15 +24,15 @@ class BiLSTM(CommonModelFunc):
 
     # ===== LSTM layer =====
     with tf.variable_scope("lstmLayer"):
-      name4W, name4B = "wOutput4LSTM", "bOutput4LSTM"
-      name4Z, name4H = "zOutput4LSTM", "hOutput4LSTM"
+      name4W, name4B = "output4LSTMW", "output4LSTMB"
+      name4Z, name4H = "output4LSTMZ", "output4LSTMH"
 
-      wOutput4LSTM = self.init_weight_variable(
+      output4LSTMW = self.init_weight_variable(
           name4W,
           [num4Hidden4LSTM,
            num4Classes])
 
-      bOutput4LSTM = self.init_bias_variable(
+      output4LSTMB = self.init_bias_variable(
           name4B,
           [num4Classes])
 
@@ -49,41 +49,42 @@ class BiLSTM(CommonModelFunc):
         self.hiddenOutputs, _, _ = rnn.static_bidirectional_rnn(
             lstmFwCell,
             lstmBwCell,
-            self.insCNNModel.hROIPooling,
+            self.insCNNModel.output4FixedSize,
             dtype=tf.float32)
       except Exception:  # Old TensorFlow version only returns outputs not states
         self.hiddenOutputs = rnn.static_bidirectional_rnn(
             lstmFwCell,
             lstmBwCell,
-            self.insCNNModel.hROIPooling,
+            self.insCNNModel.output4FixedSize,
             dtype=tf.float32)
 
-      self.zOutput4LSTM = tf.add(
+      self.output4LSTMZ = tf.add(
           tf.matmul(
               self.hiddenOutputs[-1],
-              wOutput4LSTM),
-          bOutput4LSTM,
+              output4LSTMW),
+          output4LSTMB,
           name = name4Z)
 
-      self.hOutput4LSTM = tf.nn.sigmoid(self.zOutput4LSTM, name = name4H)
+      self.output4LSTMH = tf.nn.sigmoid(self.output4LSTMZ, name = name4H)
       #self.hOutput4LSTM = tf.nn.softmax(self.zOutput4LSTM, name = name4H)
 
-    # ===== Loss layer for LSTM =====
-    with tf.variable_scope("loss4LSTMLayer"):
-      name4Loss = "loss4LSTM"
 
-      self.loss4LSTM = tf.reduce_mean(
+    # ===== Loss layer for LSTM =====
+    with tf.variable_scope("loss4ClassificationLayer"):
+      name4Loss4Classification = "loss4Classification"
+
+      self.loss4Classification = tf.reduce_mean(
           tf.square(
               tf.subtract(
-                  self.hOutput4LSTM,
-                  self.insCNNModel.yLabel)),
-          name = name4Loss)
+                  self.output4LSTMH,
+                  self.insCNNModel.yLabel4Classification)),
+          name = name4Loss4Classification)
       #self.loss4LSTM = tf.reduce_mean(
       #    tf.nn.softmax_cross_entropy_with_logits(
       #        logits = self.zDiscriminator,
       #        labels = self.CNNModel.fType),
       #    name = name4Loss)
-      tf.summary.scalar("loss4LSTM", self.loss4LSTM)
+      #tf.summary.scalar("loss4LSTM", self.loss4LSTM)
 
       self.trainStep = tf.train.AdamOptimizer(
-          self.FLAGS.learningRate).minimize(self.loss4LSTM)
+          self.FLAGS.learningRate).minimize(self.loss4Classification)
