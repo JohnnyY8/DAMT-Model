@@ -100,7 +100,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "batchSize",
-    128,
+    20,
     "Batch size for training.")
 
 flags.DEFINE_integer(
@@ -148,7 +148,7 @@ if __name__ == "__main__":
 
   # Get biLSTM
   insBiLSTM = BiLSTM(FLAGS, insDataPro, insCNNModel)
-  insBiLSTM.getBiLSTM()
+  #insBiLSTM.getBiLSTM()
 
   # Get trainer for biLSTM
   insModelTrainer4BiLSTM = ModelTrainer(FLAGS, insDataPro, insCNNModel, insBiLSTM)

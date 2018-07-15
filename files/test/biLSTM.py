@@ -66,6 +66,7 @@ def BiRNN(x, weights, biases):
     #x = tf.unstack(x, timesteps, 1)
     x = tf.unstack(x, 28, axis = -2)
     print(type(x))
+    raw_input("...")
 
     # Define lstm cells with tensorflow
     # Forward direction cell

@@ -13,6 +13,9 @@ class DataPro:
     self.featureTypes = np.array(["DrugFingerPrint", "DrugPhy", "L1000"])
     self.cls = np.array(["A375", "HA1E", "HT29", "MCF7", "PC3"])
     self.num4Features4Instance = 0
+    self.num4Features4DrugFingerPrint = 0
+    self.num4Features4DrugPhy = 0
+    self.num4Features4L1000 = 0
 
   # ===== Get feature data =====
   def getData(self):
