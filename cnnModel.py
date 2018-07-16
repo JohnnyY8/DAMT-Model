@@ -996,14 +996,20 @@ class CNNModel(CommonModelFunc):
               (self.output4FixedSize, self.roiPoolingH4L1000PC3),
               axis = 2)
 
-      self.output4FixedSizeN = tf.reshape(
+      # Transfer output4FixedSize
+      #     from [batchSzie, 1, all features, 1] to [batchSize, timeStep, num4Input]
+      self.output4FixedSize = tf.reshape(
           self.output4FixedSize,
           [-1, num4Features4Instance, embeddingDimension])
 
-      self.output4FixedSizeL = tf.unstack(
-          self.output4FixedSizeN,
+      # Unstack output as input for LSTM
+      self.output4FixedSize4LSTM = tf.unstack(
+          self.output4FixedSize,
           num4Features4Instance,
           axis = 1)
+      self.output4FixedSize4LSTM2 = tf.transpose(
+          self.output4FixedSize,
+          perm = [1, 0, 2])
 
 
     # ===== First fully connected layer =====  # TODO

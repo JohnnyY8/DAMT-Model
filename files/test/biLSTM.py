@@ -63,7 +63,12 @@ def BiRNN(x, weights, biases):
 
     # Unstack to get a list of 'timesteps' tensors of shape (batch_size, num_input)
     print(type(x))
+    print(x.get_shape().as_list())
     #x = tf.unstack(x, timesteps, 1)
+    temp = tf.unstack(x, 28, axis = 1)
+    print(len(temp))
+    print(len(temp[0]))
+    raw_input("...")
     x = tf.unstack(x, 28, axis = -2)
     print(type(x))
     raw_input("...")

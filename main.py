@@ -70,27 +70,27 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "num4OutputChannels4Conv1",
-    320,
+    32,
     "Number of output channels for conv1 layer.")
 
 flags.DEFINE_integer(
     "num4InputChannels4Conv2",
-    320,
+    32,
     "Number of input channels for conv2 layer.")
 
 flags.DEFINE_integer(
     "num4OutputChannels4Conv2",
-    480,
+    48,
     "Number of output channels for conv2 layer.")
 
 flags.DEFINE_integer(
     "num4InputChannels4Conv3",
-    480,
+    48,
     "Number of input channels for conv3 layer.")
 
 flags.DEFINE_integer(
     "num4OutputChannels4Conv3",
-    960,
+    96,
     "Number of output channels for conv3 layer.")
 
 flags.DEFINE_integer(
@@ -148,7 +148,7 @@ if __name__ == "__main__":
 
   # Get biLSTM
   insBiLSTM = BiLSTM(FLAGS, insDataPro, insCNNModel)
-  #insBiLSTM.getBiLSTM()
+  insBiLSTM.getBiLSTM()
 
   # Get trainer for biLSTM
   insModelTrainer4BiLSTM = ModelTrainer(FLAGS, insDataPro, insCNNModel, insBiLSTM)

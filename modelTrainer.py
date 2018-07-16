@@ -78,11 +78,29 @@ class ModelTrainer:
           batchY4Classification = self.insDataPro.label4Classification[self.yTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
           feedDict[self.insCNNModel.yLabel4Classification] = batchY4Classification
 
-          ofsn, ofsl= sess.run([self.insCNNModel.output4FixedSizeN, self.insCNNModel.output4FixedSizeL], feed_dict = feedDict)
-          print ofsn.shape
-          print type(ofsl)
+          ofsn, ofsl, ofsl2 = sess.run([self.insCNNModel.output4FixedSize, self.insCNNModel.output4FixedSize4LSTM, self.insCNNModel.output4FixedSize4LSTM2], feed_dict = feedDict)
+          #ofsn, ofsl = sess.run([self.insCNNModel.output4FixedSize, self.insCNNModel.output4FixedSize4LSTM], feed_dict = feedDict)
+
+          print(type(ofsl))
+          print(type(ofsl2))
+          #print(ofsn[0])
+          #print("===========")
+          #print(ofsn[1])
+          #print("===========")
+          #print(ofsl[0])
+          #print("===========")
+          #print(ofsl2[0])
+          raw_input("...")
+
+          #print ofsn.shape
+          #print type(ofsl)
+          #print len(ofsl), len(ofsl[0]), len(ofsl[0][0])
+          #print ofsl
+          #raw_input("...")
 
           #sess.run(self.insBiLSTM.trainStep, feed_dict = feedDict)
+          loss, _ = sess.run([self.insBiLSTM.loss4Classification, self.insBiLSTM.trainStep], feed_dict = feedDict)
+          print("loss:", loss)
 
 
 
