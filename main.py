@@ -45,7 +45,7 @@ flags.DEFINE_string(
 
 flags.DEFINE_float(
     "testSize",
-    0.02,
+    0.002,
     "Rate for validation data.")
 
 flags.DEFINE_float(
@@ -125,7 +125,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "num4Epoches",
-    1,
+    1000,
     "Epoches for training.")
 
 flags.DEFINE_integer(

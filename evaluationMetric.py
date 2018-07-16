@@ -28,7 +28,8 @@ def cal_evaluation(prob, batch_ys, threshold):
     for row_i, row in enumerate(sort_arg):
         for col_i, col in enumerate(row):
             if batch_ys_temp[row_i, col_i] == 1:
-                coverage = coverage + len(label_names) - col_i - 1
+                #coverage = coverage + len(label_names) - col_i - 1
+                coverage = coverage + row.shape[0] - col_i - 1
                 break
     coverage = coverage / len(batch_ys_temp)
 
