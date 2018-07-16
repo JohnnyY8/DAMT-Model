@@ -15,7 +15,7 @@ flags = tf.app.flags
 
 flags.DEFINE_string(
     "gpuId",
-    "0",
+    "1",
     "Which gpu is assigned.")
 
 flags.DEFINE_string(
@@ -45,7 +45,7 @@ flags.DEFINE_string(
 
 flags.DEFINE_float(
     "testSize",
-    0.1,
+    0.02,
     "Rate for validation data.")
 
 flags.DEFINE_float(
@@ -70,27 +70,32 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "num4OutputChannels4Conv1",
-    32,
+    320,
+    #8,
     "Number of output channels for conv1 layer.")
 
 flags.DEFINE_integer(
     "num4InputChannels4Conv2",
-    32,
+    320,
+    #8,
     "Number of input channels for conv2 layer.")
 
 flags.DEFINE_integer(
     "num4OutputChannels4Conv2",
-    48,
+    480,
+    #12,
     "Number of output channels for conv2 layer.")
 
 flags.DEFINE_integer(
     "num4InputChannels4Conv3",
-    48,
+    480,
+    #12,
     "Number of input channels for conv3 layer.")
 
 flags.DEFINE_integer(
     "num4OutputChannels4Conv3",
-    96,
+    960,
+    #24,
     "Number of output channels for conv3 layer.")
 
 flags.DEFINE_integer(
@@ -120,7 +125,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "num4Epoches",
-    2000,
+    1,
     "Epoches for training.")
 
 flags.DEFINE_integer(

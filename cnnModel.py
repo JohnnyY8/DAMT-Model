@@ -858,7 +858,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingSHeight4DrugFingerPrint, roiPoolingSWidth4DrugFingerPrint = \
               1, int(math.ceil(len4FeatureMaps4DrugFingerPrint * 1.0 / embeddingDimension))
 
-          self.roiPoolingH4DrugFingerPrint = self.max_pool(
+          self.roiPoolingH4DrugFingerPrint = self.avg_pool(
               self.input4FixedSize4DrugFingerPrint,
               roiPoolingKHeight4DrugFingerPrint,
               roiPoolingKWidth4DrugFingerPrint,
@@ -873,7 +873,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingSHeight4DrugPhy, roiPoolingSWidth4DrugPhy = \
               1, int(math.ceil(len4FeatureMaps4DrugPhy * 1.0 / embeddingDimension))
 
-          self.roiPoolingH4DrugPhy = self.max_pool(
+          self.roiPoolingH4DrugPhy = self.avg_pool(
               self.input4FixedSize4DrugPhy,
               roiPoolingKHeight4DrugPhy,
               roiPoolingKWidth4DrugPhy,
@@ -888,7 +888,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingSHeight4L1000A375, roiPoolingSWidth4L1000A375 = \
               1, int(math.ceil(len4FeatureMaps4L1000A375 * 1.0 / embeddingDimension))
 
-          self.roiPoolingH4L1000A375 = self.max_pool(
+          self.roiPoolingH4L1000A375 = self.avg_pool(
               self.input4FixedSize4L1000A375,
               roiPoolingKHeight4L1000A375,
               roiPoolingKWidth4L1000A375,
@@ -902,7 +902,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingSHeight4L1000HA1E, roiPoolingSWidth4L1000HA1E = \
               1, int(math.ceil(len4FeatureMaps4L1000HA1E * 1.0 / embeddingDimension))
 
-          self.roiPoolingH4L1000HA1E = self.max_pool(
+          self.roiPoolingH4L1000HA1E = self.avg_pool(
               self.input4FixedSize4L1000HA1E,
               roiPoolingKHeight4L1000HA1E,
               roiPoolingKWidth4L1000HA1E,
@@ -916,7 +916,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingSHeight4L1000HT29, roiPoolingSWidth4L1000HT29 = \
               1, int(math.ceil(len4FeatureMaps4L1000HT29 * 1.0 / embeddingDimension))
 
-          self.roiPoolingH4L1000HT29 = self.max_pool(
+          self.roiPoolingH4L1000HT29 = self.avg_pool(
               self.input4FixedSize4L1000HT29,
               roiPoolingKHeight4L1000HT29,
               roiPoolingKWidth4L1000HT29,
@@ -930,7 +930,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingSHeight4L1000MCF7, roiPoolingSWidth4L1000MCF7 = \
               1, int(math.ceil(len4FeatureMaps4L1000MCF7 * 1.0 / embeddingDimension))
 
-          self.roiPoolingH4L1000MCF7 = self.max_pool(
+          self.roiPoolingH4L1000MCF7 = self.avg_pool(
               self.input4FixedSize4L1000MCF7,
               roiPoolingKHeight4L1000MCF7,
               roiPoolingKWidth4L1000MCF7,
@@ -944,7 +944,7 @@ class CNNModel(CommonModelFunc):
           roiPoolingSHeight4L1000PC3, roiPoolingSWidth4L1000PC3 = \
               1, int(math.ceil(len4FeatureMaps4L1000PC3 * 1.0 / embeddingDimension))
 
-          self.roiPoolingH4L1000PC3 = self.max_pool(
+          self.roiPoolingH4L1000PC3 = self.avg_pool(
               self.input4FixedSize4L1000PC3,
               roiPoolingKHeight4L1000PC3,
               roiPoolingKWidth4L1000PC3,

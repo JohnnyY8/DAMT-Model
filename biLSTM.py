@@ -67,25 +67,30 @@ class BiLSTM(CommonModelFunc):
           name = name4Z)
 
       self.outputH4LSTM = tf.nn.sigmoid(self.outputZ4LSTM, name = name4H)
-      #self.outputH4LSTM = tf.nn.softmax(self.zOutput4LSTM, name = name4H)
 
 
     # ===== Loss layer for LSTM =====
     with tf.variable_scope("loss4ClassificationLayer"):
       name4Loss4Classification = "loss4Classification"
 
-      self.loss4Classification = tf.reduce_mean(
-          tf.square(
-              tf.subtract(
-                  self.outputH4LSTM,
-                  self.insCNNModel.yLabel4Classification)),
-          name = name4Loss4Classification)
-      #self.loss4LSTM = tf.reduce_mean(
-      #    tf.nn.softmax_cross_entropy_with_logits(
-      #        logits = self.zDiscriminator,
-      #        labels = self.CNNModel.fType),
-      #    name = name4Loss)
-      #tf.summary.scalar("loss4LSTM", self.loss4LSTM)
+#      self.loss4Classification = tf.reduce_mean(
+#          tf.square(
+#              tf.subtract(
+#                  self.outputH4LSTM,
+#                  self.insCNNModel.yLabel4Classification)),
+#          name = name4Loss4Classification)
 
-    self.trainStep = tf.train.AdamOptimizer(
-        self.FLAGS.learningRate).minimize(self.loss4Classification)
+      self.loss4Classification = tf.reduce_mean(
+          tf.nn.sigmoid_cross_entropy_with_logits(
+              logits = self.outputZ4LSTM,
+              labels = self.insCNNModel.yLabel4Classification),
+          name = name4Loss4Classification)
+
+      self.trainStep = tf.train.AdamOptimizer(
+          self.FLAGS.learningRate).minimize(self.loss4Classification)
+
+    # ===== Accuracy layer for LSTM =====
+    with tf.variable_scope("accu4ClassificationLayer"):
+      name4Accu4Classification = "accu4Classification"
+
+      #self.a
