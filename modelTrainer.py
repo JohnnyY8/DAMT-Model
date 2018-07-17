@@ -88,7 +88,7 @@ class ModelTrainer:
           #ofsn, ofsl, ofsl2 = sess.run([self.insCNNModel.output4FixedSize, self.insCNNModel.output4FixedSize4LSTM, self.insCNNModel.output4FixedSize4LSTM2], feed_dict = feedDict4Train)
           #sess.run(self.insBiLSTM.trainStep, feed_dict = feedDict4Train)
           loss, _ = sess.run([self.insBiLSTM.loss4Classification, self.insBiLSTM.trainStep], feed_dict = feedDict4Train)
-          print("loss:", loss)
+          #print("loss:", loss)
 
         for featureType in featureTypes:
           if featureType == "DrugFingerPrint":
