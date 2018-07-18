@@ -25,6 +25,7 @@ class EvaluationMetric:
 
     return jaccardIndex
 
+
   @staticmethod
   def getAveragePrecision(score, label):
     '''
@@ -47,6 +48,7 @@ class EvaluationMetric:
 
     return averagePrecision
 
+
   @staticmethod
   def getCoverage(score, label):
     '''
@@ -68,6 +70,7 @@ class EvaluationMetric:
 
     return coverage
 
+
   @staticmethod
   def getOneError(score, label):
     '''
@@ -81,6 +84,7 @@ class EvaluationMetric:
             np.argmax(score, axis = 1)])
 
     return oneError
+
 
   @staticmethod
   def getHammingLoss(score, label, threshold = 0.5):
@@ -102,6 +106,7 @@ class EvaluationMetric:
         float(tempScore.shape[1]))
 
     return hammingLoss
+
 
   @staticmethod
   def getRankingLoss(score, label):
@@ -131,5 +136,5 @@ class EvaluationMetric:
 
     rankingLoss /= tempLabel.shape[0]
 
-    return ranking_loss
+    return rankingLoss
 

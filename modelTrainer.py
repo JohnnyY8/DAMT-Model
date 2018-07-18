@@ -124,10 +124,15 @@ class ModelTrainer:
         oneError = EvaluationMetric.getOneError(score, testY4Classification)
         coverage = EvaluationMetric.getCoverage(score, testY4Classification)
         rankingLoss = EvaluationMetric.getRankingLoss(score, testY4Classification)
-        averagePrecision = EvaluationMetric.getAveragePrecision(score, testY4Classification)
         jaccardIndex = EvaluationMetric.getJaccardIndex(score, testY4Classification)
-        print "hammingLoss, oneError, coverage, rankingLoss, averagePresicion, jaccardIndex:", \
-            hammingLoss, oneError, coverage, rankingLoss, averagePrecision, jaccardIndex
+        averagePrecision = EvaluationMetric.getAveragePrecision(score, testY4Classification)
+
+        print "  hammingLoss:", hammingLoss
+        print "  oneError:", oneError
+        print "  coverage:", coverage
+        print "  rankingLoss:", rankingLoss
+        print "  jaccardIndex:", jaccardIndex
+        print "  averagePrecision:", averagePrecision
 
 
   # Traing and validation for discriminator
