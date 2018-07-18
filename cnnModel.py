@@ -142,10 +142,10 @@ class CNNModel(CommonModelFunc):
               name = "xInput4L1000PC3")
 
       # yLabel for discriminator
-      #self.yLabel4Discriminator = tf.placeholder(
-      #    tf.float32,
-      #    [None, num4FeatureTypes],
-      #    name = "yLabel4Discriminator")
+      self.yLabel4Discriminator = tf.placeholder(
+          tf.float32,
+          [None, num4FeatureTypes],
+          name = "yLabel4Discriminator")
 
       # yLabel for classification
       self.yLabel4Classification = tf.placeholder(
@@ -996,6 +996,11 @@ class CNNModel(CommonModelFunc):
               (self.output4FixedSize, self.roiPoolingH4L1000PC3),
               axis = 2)
 
+      # Reshape output as input for discriminator
+      self.output4FixedSize4Discriminator = tf.reshape(
+          self.output4FixedSize,
+          [-1, num4Features4Instance * embeddingDimension])
+
       # Transfer output4FixedSize
       #     from [batchSzie, 1, all features, 1] to [batchSize, timeStep, num4Input]
       self.output4FixedSize = tf.reshape(
@@ -1007,39 +1012,3 @@ class CNNModel(CommonModelFunc):
           self.output4FixedSize,
           num4Features4Instance,
           axis = 1)
-      self.output4FixedSize4LSTM2 = tf.transpose(
-          self.output4FixedSize,
-          perm = [1, 0, 2])
-
-
-    # ===== First fully connected layer =====  # TODO
-#    with tf.variable_scope("fc1Layer"):
-#      name4W, name4B = "wFC1", "bFC1"
-#      name4Z, name4H = "zFC1", "hFC1"
-#
-#      input4FC1 = tf.reshape(self.input4FixedSize, [-1, len4AllFM])
-#
-#      wFC1 = self.init_weight_variable(
-#          name4W,
-#          [len4AllFM,
-#           num4FC1])
-#      #self.variable_summaries(wFC1)
-#
-#      bFC1 = self.init_bias_variable(
-#          name4B,
-#          [num4FC1])
-#      #self.variable_summaries(bFC1)
-#
-#      zFC1 = tf.add(
-#          tf.matmul(
-#              input4FC1,
-#              wFC1),
-#          bFC1,
-#          name = name4Z)
-#      #self.variable_summaries(zFC1)
-#
-#      self.hFC1 = tf.nn.relu(
-#          zFC1,
-#          name = name4H)
-#      #self.variable_summaries(self.hFC1)
-

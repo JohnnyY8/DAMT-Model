@@ -12,16 +12,16 @@ from evaluationMetric import *
 
 class ModelTrainer:
 
-  def __init__(self, FLAGS, insDataPro, insCNNModel, insBiLSTM):
+  def __init__(self, FLAGS, insDataPro, insCNNModel):
     self.FLAGS = FLAGS
     self.insDataPro = insDataPro
     self.insCNNModel = insCNNModel
-    self.insBiLSTM = insBiLSTM
     #self.insResultStorer = ResultStorer(FLAGS)
     #self.merged = tf.summary.merge_all()
 
   # Training and validation for LSTM
-  def trainLSTM(self):
+  def trainLSTM(self, insBiLSTM):
+    self.insBiLSTM = insBiLSTM
     featureTypes = self.insDataPro.featureTypes
 
     self.xTrainIndex, self.xTestIndex, self.yTrainIndex, self.yTestIndex = \
@@ -136,7 +136,7 @@ class ModelTrainer:
 
 
   # Traing and validation for discriminator
-  def trainDiscriminator(self):
+  def trainDiscriminator(self, insDiscriminator):
      self.xTrain, self.xTest, self.yTrain, self.yTest = \
         self.insDataPro.splitData2TrainAndVal()
 

@@ -149,12 +149,12 @@ if __name__ == "__main__":
   insCNNModel.getCNNModel()
 
   # Get discriminator
-  #insDiscriminator = Discriminator(FLAGS, insCNNModel)
+  insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
 
   # Get biLSTM
   insBiLSTM = BiLSTM(FLAGS, insDataPro, insCNNModel)
   insBiLSTM.getBiLSTM()
 
   # Get trainer for biLSTM
-  insModelTrainer4BiLSTM = ModelTrainer(FLAGS, insDataPro, insCNNModel, insBiLSTM)
-  insModelTrainer4BiLSTM.trainLSTM()
+  insModelTrainer4BiLSTM = ModelTrainer(FLAGS, insDataPro, insCNNModel)
+  insModelTrainer4BiLSTM.trainLSTM(insBiLSTM)
