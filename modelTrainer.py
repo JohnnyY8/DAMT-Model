@@ -119,8 +119,15 @@ class ModelTrainer:
         feedDict4Test[self.insCNNModel.yLabel4Classification] = testY4Classification
 
         score = sess.run(self.insBiLSTM.outputH4LSTM, feed_dict = feedDict4Test)
-        hamming_loss, one_error, coverage, ranking_loss, avg_pre = cal_evaluation(score, testY4Classification, 0.5)
-        print "hamming_loss, one_error, coverage, ranking_loss, avg_pre:", hamming_loss, one_error, coverage, ranking_loss, avg_pre
+
+        hammingLoss = EvaluationMetric.getHammingLoss(score, testY4Classification)
+        oneError = EvaluationMetric.getOneError(score, testY4Classification)
+        coverage = EvaluationMetric.getCoverage(score, testY4Classification)
+        rankingLoss = EvaluationMetric.getRankingLoss(score, testY4Classification)
+        averagePrecision = EvaluationMetric.getAveragePrecision(score, testY4Classification)
+        jaccardIndex = EvaluationMetric.getJaccardIndex(score, testY4Classification)
+        print "hammingLoss, oneError, coverage, rankingLoss, averagePresicion, jaccardIndex:", \
+            hammingLoss, oneError, coverage, rankingLoss, averagePrecision, jaccardIndex
 
 
   # Traing and validation for discriminator
