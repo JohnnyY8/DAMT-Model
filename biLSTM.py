@@ -37,11 +37,11 @@ class BiLSTM(CommonModelFunc):
           name4B,
           [num4Classes])
 
-      ###################################
-      # Define lstm cells with tensorflow
-      # Forward direction cell
-      # Backward direction cell
-      ###################################
+      '''
+      Define lstm cells with tensorflow
+      Forward direction cell
+      Backward direction cell
+      '''
       lstmFwCell = rnn.BasicLSTMCell(num4HiddenUnits4LSTM, forget_bias = 1.0)
       lstmBwCell = rnn.BasicLSTMCell(num4HiddenUnits4LSTM, forget_bias = 1.0)
 
