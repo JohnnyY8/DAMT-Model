@@ -134,7 +134,6 @@ class ModelTrainer:
         print "  jaccardIndex:", jaccardIndex
         print "  averagePrecision:", averagePrecision
 
-
   # Traing and validation for discriminator
   def trainDiscriminator(self, insDiscriminator):
      self.xTrain, self.xTest, self.yTrain, self.yTest = \

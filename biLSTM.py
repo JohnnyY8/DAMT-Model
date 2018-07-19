@@ -37,11 +37,7 @@ class BiLSTM(CommonModelFunc):
           name4B,
           [num4Classes])
 
-      '''
-      Define lstm cells with tensorflow
-      Forward direction cell
-      Backward direction cell
-      '''
+      #Define lstm cells: forward cell and backward direction cell
       lstmFwCell = rnn.BasicLSTMCell(num4HiddenUnits4LSTM, forget_bias = 1.0)
       lstmBwCell = rnn.BasicLSTMCell(num4HiddenUnits4LSTM, forget_bias = 1.0)
 
@@ -73,13 +69,6 @@ class BiLSTM(CommonModelFunc):
     with tf.variable_scope("loss4ClassificationLayer"):
       name4Loss4Classification = "loss4Classification"
 
-#      self.loss4Classification = tf.reduce_mean(
-#          tf.square(
-#              tf.subtract(
-#                  self.outputH4LSTM,
-#                  self.insCNNModel.yLabel4Classification)),
-#          name = name4Loss4Classification)
-
       self.loss4Classification = tf.reduce_mean(
           tf.nn.sigmoid_cross_entropy_with_logits(
               logits = self.outputZ4LSTM,
@@ -89,8 +78,4 @@ class BiLSTM(CommonModelFunc):
       self.trainStep = tf.train.AdamOptimizer(
           self.FLAGS.learningRate).minimize(self.loss4Classification)
 
-    # ===== Accuracy layer for LSTM =====
-    with tf.variable_scope("accu4ClassificationLayer"):
-      name4Accu4Classification = "accu4Classification"
 
-      #self.a
