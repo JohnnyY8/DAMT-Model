@@ -83,13 +83,12 @@ class ModelTrainer:
           #feedDict4Train[self.insCNNModel.yLabel4Discriminator] = batchY4Discriminator
 
           batchY4Classification = self.insDataPro.label4Classification[self.yTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
-          feedDict4Train[self.insCNNModel.yLabel4Classification] = batchY4Classification
+          feedDict4Train[self.insBiLSTM.yLabel4Classification] = batchY4Classification
 
-          #ofsn, ofsl, ofsl2 = sess.run([self.insCNNModel.output4FixedSize, self.insCNNModel.output4FixedSize4LSTM, self.insCNNModel.output4FixedSize4LSTM2], feed_dict = feedDict4Train)
-          #sess.run(self.insBiLSTM.trainStep, feed_dict = feedDict4Train)
           loss, _ = sess.run([self.insBiLSTM.loss4Classification, self.insBiLSTM.trainStep], feed_dict = feedDict4Train)
           #print("loss:", loss)
 
+        # For testing
         for featureType in featureTypes:
           if featureType == "DrugFingerPrint":
             testX4DrugFingerPrint = self.insDataPro.data4DrugFingerPrint[self.xTestIndex]

@@ -141,18 +141,62 @@ class CNNModel(CommonModelFunc):
                num4InputChannels],
               name = "xInput4L1000PC3")
 
-      # yLabel for discriminator
-      self.yLabel4Discriminator = tf.placeholder(
-          tf.float32,
-          [None, num4FeatureTypes],
-          name = "yLabel4Discriminator")
+      #for featureType in featureTypes:
+      #  if featureType == "DrugFingerPrint":
+      #    # yLabel of discriminator for drug finger print
+      #    self.yLabel4Discriminator4DrugFingerPrint = tf.placeholder(
+      #        tf.float32,
+      #        [None, num4FeatureTypes],
+      #        name = "yLabel4Discriminator4DrugFingerPrint")
+
+      #  elif featureType == "DrugPhy":
+      #    # yLabel of discriminator for drug phy
+      #    self.yLabel4Discriminator4DrugPhy = tf.placeholder(
+      #        tf.float32,
+      #        [None, num4FeatureTypes],
+      #        name = "yLabel4Discriminator4DrugPhy")
+
+      #  elif featureType == "L1000":
+      #    # yLabel of discriminator for L1000 A375
+      #    self.yLabel4Discriminator4L1000A375 = tf.placeholder(
+      #        tf.float32,
+      #        [None, num4FeatureTypes],
+      #        name = "yLabel4Discriminator4L1000A375")
+
+      #    # yLabel of discriminator for L1000 HA1E
+      #    self.yLabel4Discriminator4L1000HA1E = tf.placeholder(
+      #        tf.float32,
+      #        [None, num4FeatureTypes],
+      #        name = "yLabel4Discriminator4L1000HA1E")
+
+      #    # yLabel of discriminator for L1000 HT29
+      #    self.yLabel4Discriminator4L1000HT29 = tf.placeholder(
+      #        tf.float32,
+      #        [f featureType == "DrugPhy":
+      #    # yLabel of discriminator for drug phy
+      #    self.yLabel4Discriminator4DrugPhy = tf.placeholder(
+      #        tf.float32,
+      #        [None, num4FeatureTypes],
+      #        name = "yLabel4Discriminator4DrugPhy")None, num4FeatureTypes],
+      #        name = "yLabel4Discriminator4L1000HT29")
+
+      #    # yLabel of discriminator for L1000 MCF7
+      #    self.yLabel4Discriminator4L1000MCF7 = tf.placeholder(
+      #        tf.float32,
+      #        [None, num4FeatureTypes],
+      #        name = "yLabel4Discriminator4L1000MCF7")
+
+      #    # yLabel of discriminator for L1000 PC3
+      #    self.yLabel4Discriminator4L1000PC3 = tf.placeholder(
+      #        tf.float32,
+      #        [None, num4FeatureTypes],
+      #        name = "yLabel4Discriminator4L1000PC3")
 
       # yLabel for classification
-      self.yLabel4Classification = tf.placeholder(
-          tf.float32,
-          [None, num4Classes],
-          name = "yLabel4Classification")
-
+      #self.yLabel4Classification = tf.placeholder(
+      #    tf.float32,
+      #    [None, num4Classes],
+      #    name = "yLabel4Classification")
 
     # ===== First convolutional layer =====
     with tf.variable_scope("conv1Layer"):
