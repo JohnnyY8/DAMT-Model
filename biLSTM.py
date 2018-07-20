@@ -25,6 +25,12 @@ class BiLSTM(CommonModelFunc):
 
     # ===== LSTM layer =====
     with tf.variable_scope("lstmLayer"):
+      # yLabel for classification
+      self.yLabel4Classification = tf.placeholder(
+          tf.float32,
+          [None, num4Classes],
+          name = "yLabel4Classification")
+
       name4W, name4B = "output4LSTMW", "output4LSTMB"
       name4Z, name4H = "output4LSTMZ", "output4LSTMH"
 
@@ -72,7 +78,7 @@ class BiLSTM(CommonModelFunc):
       self.loss4Classification = tf.reduce_mean(
           tf.nn.sigmoid_cross_entropy_with_logits(
               logits = self.outputZ4LSTM,
-              labels = self.insCNNModel.yLabel4Classification),
+              labels = self.yLabel4Classification),
           name = name4Loss4Classification)
 
       self.trainStep = tf.train.AdamOptimizer(
