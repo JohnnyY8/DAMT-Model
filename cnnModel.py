@@ -997,8 +997,8 @@ class CNNModel(CommonModelFunc):
               name4H4L1000PC3)
 
 
-    # ===== Concation layer =====
-    with tf.variable_scope("concationLayer"):
+    # ===== Concation layer for input of LSTM =====
+    with tf.variable_scope("concationLayer4Input4LSTM"):
       for ind, featureType in enumerate(featureTypes):
         if featureType == "DrugFingerPrint":
           if ind == 0:
@@ -1040,11 +1040,6 @@ class CNNModel(CommonModelFunc):
               (self.output4FixedSize, self.roiPoolingH4L1000PC3),
               axis = 2)
 
-      # Reshape output as input for discriminator
-      self.output4FixedSize4Discriminator = tf.reshape(
-          self.output4FixedSize,
-          [-1, num4Features4Instance * embeddingDimension])
-
       # Transfer output4FixedSize
       #     from [batchSzie, 1, all features, 1] to [batchSize, timeStep, num4Input]
       self.output4FixedSize = tf.reshape(
@@ -1056,3 +1051,198 @@ class CNNModel(CommonModelFunc):
           self.output4FixedSize,
           num4Features4Instance,
           axis = 1)
+
+
+    # ===== Concation layer for input of Discriminator =====
+    with tf.variable_scope("concationLayer4Input4Discriminator"):
+      for ind, featureType in enumerate(featureTypes):
+        # Drug finger print
+        if featureType == "DrugFingerPrint":
+          self.shape4ROIPoolingH4DrugFingerPrint = \
+              self.roiPoolingH4DrugFingerPrint.get_shape().as_list()
+
+          self.roiPoolingH4DrugFingerPrint4Input4Discriminator = \
+              tf.reshape(
+                  self.roiPoolingH4DrugFingerPrint,
+                  [-1, embeddingDimension])
+
+          tempLabel = np.zeros(
+              self.shape4ROIPoolingH4DrugFingerPrint[0],
+              num4FeatureTypes)
+          tempLabel[:, ind] = 1.0
+
+          if ind == 0:
+            self.xData4Discriminator = \
+                self.roiPoolingH4DrugFingerPrint4Input4Discriminator
+
+            self.yLabel4Discriminator = \
+                tempLabel
+
+          else:
+            self.xData4Discriminator = tf.concat(
+                self.xData4Discriminator,
+                self.roiPoolingH4DrugFingerPrint4Input4Discriminator,
+                axis = 0)
+
+            self.yLabel4Discriminator = np.vstack(
+                (self.yLabel4Discriminator,
+                 tempLabel))
+
+        # Drug phy
+        elif featureType == "DrugPhy":
+          self.shape4ROIPoolingH4DrugPhy = \
+              self.roiPoolingH4DrugPhy.get_shape().as_list()
+
+          self.roiPoolingH4DrugPhy4Input4Discriminator = \
+              tf.reshape(
+                  self.roiPoolingH4DrugPhy,
+                  [-1, embeddingDimension])
+
+          tempLabel = np.zeros(
+              self.shape4ROIPoolingH4DrugPhy[0],
+              num4FeatureTypes)
+          tempLabel[:, ind] = 1.0
+
+          if ind == 0:
+            self.xData4Discriminator = \
+                self.roiPoolingH4DrugPhy4Input4Discriminator
+
+            self.yLabel4Discriminator = \
+                tempLabel
+
+          else:
+            self.xData4Discriminator = tf.concat(
+                self.xData4Discriminator,
+                self.roiPoolingH4DrugPhy4Input4Discriminator,
+                axis = 0)
+
+            self.yLabel4Discriminator = np.vstack(
+                (self.yLabel4Discriminator,
+                 tempLabel))
+
+        # L1000
+        elif featureType == "L1000":
+          # A375
+          self.shape4ROIPoolingH4L1000A375 = \
+              self.roiPoolingH4L1000A375.get_shape().as_list()
+
+          self.roiPoolingH4L1000A3754Input4Discriminator = \
+              tf.reshape(
+                  self.roiPoolingH4L1000A375,
+                  [-1, embeddingDimension])
+
+          tempLabel = np.zeros(
+              self.shape4ROIPoolingH4L1000A375[0],
+              num4FeatureTypes)
+          tempLabel[:, ind] = 1.0
+
+          if ind == 0:
+            self.xData4Discriminator = \
+                self.roiPoolingH4L1000A3754Input4Discriminator
+
+            self.yLabel4Discriminator = \
+                tempLabel
+
+          else:
+            self.xData4Discriminator = tf.concat(
+                self.xData4Discriminator,
+                self.roiPoolingH4L1000A3754Input4Discriminator,
+                axis = 0)
+
+            self.yLabel4Discriminator = np.vstack(
+                (self.yLabel4Discriminator,
+                 tempLabel))
+
+          # HA1E
+          self.shape4ROIPoolingH4L1000HA1E = \
+              self.roiPoolingH4L1000HA1E.get_shape().as_list()
+
+          self.roiPoolingH4L1000HA1E4Input4Discriminator = \
+              tf.reshape(
+                  self.roiPoolingH4L1000HA1E,
+                  [-1, embeddingDimension])
+
+          tempLabel = np.zeros(
+              self.shape4ROIPoolingH4L1000HA1E[0],
+              num4FeatureTypes)
+          tempLabel[:, ind] = 1.0
+
+          self.xData4Discriminator = tf.concat(
+              self.xData4Discriminator,
+              self.roiPoolingH4L1000HA1E4Input4Discriminator,
+              axis = 0)
+
+          self.yLabel4Discriminator = np.vstack(
+              (self.yLabel4Discriminator,
+               tempLabel))
+
+          # HT29
+          self.shape4ROIPoolingH4L1000HT29 = \
+              self.roiPoolingH4L1000HT29.get_shape().as_list()
+
+          self.roiPoolingH4L1000HT294Input4Discriminator = \
+              tf.reshape(
+                  self.roiPoolingH4L1000HT29,
+                  [-1, embeddingDimension])
+
+          tempLabel = np.zeros(
+              self.shape4ROIPoolingH4L1000HT29[0],
+              num4FeatureTypes)
+          tempLabel[:, ind] = 1.0
+
+          self.xData4Discriminator = tf.concat(
+              self.xData4Discriminator,
+              self.roiPoolingH4L1000HT294Input4Discriminator,
+              axis = 0)
+
+          self.yLabel4Discriminator = np.vstack(
+              (self.yLabel4Discriminator,
+               tempLabel))
+
+          # MCF7
+          self.shape4ROIPoolingH4L1000MCF7 = \
+              self.roiPoolingH4L1000MCF7.get_shape().as_list()
+
+          self.roiPoolingH4L1000MCF74Input4Discriminator = \
+              tf.reshape(
+                  self.roiPoolingH4L1000MCF7,
+                  [-1, embeddingDimension])
+
+          tempLabel = np.zeros(
+              self.shape4ROIPoolingH4L1000MCF7[0],
+              num4FeatureTypes)
+          tempLabel[:, ind] = 1.0
+
+          self.xData4Discriminator = tf.concat(
+              self.xData4Discriminator,
+              self.roiPoolingH4L1000MCF74Input4Discriminator,
+              axis = 0)
+
+          self.yLabel4Discriminator = np.vstack(
+              (self.yLabel4Discriminator,
+               tempLabel))
+
+          # PC3
+          self.shape4ROIPoolingH4L1000PC3 = \
+              self.roiPoolingH4L1000PC3.get_shape().as_list()
+
+          self.roiPoolingH4L1000PC34Input4Discriminator = \
+              tf.reshape(
+                  self.roiPoolingH4L1000PC3,
+                  [-1, embeddingDimension])
+
+          tempLabel = np.zeros(
+              self.shape4ROIPoolingH4L1000PC3[0],
+              num4FeatureTypes)
+          tempLabel[:, ind] = 1.0
+
+          self.xData4Discriminator = tf.concat(
+              self.xData4Discriminator,
+              self.roiPoolingH4L1000PC34Input4Discriminator,
+              axis = 0)
+
+          self.yLabel4Discriminator = np.vstack(
+              (self.yLabel4Discriminator,
+               tempLabel))
+
+      self.yLabel4Discriminator = tf.constant(self.yLabel4Discriminator)
