@@ -1069,8 +1069,8 @@ class CNNModel(CommonModelFunc):
 
           else:
             self.xData4Discriminator = tf.concat(
-                self.xData4Discriminator,
-                self.roiPoolingH4DrugFingerPrint4Input4Discriminator,
+                (self.xData4Discriminator,
+                 self.roiPoolingH4DrugFingerPrint4Input4Discriminator),
                 axis = 0)
 
         # Drug phy
@@ -1086,8 +1086,8 @@ class CNNModel(CommonModelFunc):
 
           else:
             self.xData4Discriminator = tf.concat(
-                self.xData4Discriminator,
-                self.roiPoolingH4DrugPhy4Input4Discriminator,
+                (self.xData4Discriminator,
+                 self.roiPoolingH4DrugPhy4Input4Discriminator),
                 axis = 0)
 
         # L1000
@@ -1104,8 +1104,8 @@ class CNNModel(CommonModelFunc):
 
           else:
             self.xData4Discriminator = tf.concat(
-                self.xData4Discriminator,
-                self.roiPoolingH4L1000A3754Input4Discriminator,
+                (self.xData4Discriminator,
+                 self.roiPoolingH4L1000A3754Input4Discriminator),
                 axis = 0)
 
           # HA1E
@@ -1115,8 +1115,8 @@ class CNNModel(CommonModelFunc):
                   [-1, embeddingDimension])
 
           self.xData4Discriminator = tf.concat(
-              self.xData4Discriminator,
-              self.roiPoolingH4L1000HA1E4Input4Discriminator,
+              (self.xData4Discriminator,
+               self.roiPoolingH4L1000HA1E4Input4Discriminator),
               axis = 0)
 
           # HT29
@@ -1126,8 +1126,8 @@ class CNNModel(CommonModelFunc):
                   [-1, embeddingDimension])
 
           self.xData4Discriminator = tf.concat(
-              self.xData4Discriminator,
-              self.roiPoolingH4L1000HT294Input4Discriminator,
+              (self.xData4Discriminator,
+               self.roiPoolingH4L1000HT294Input4Discriminator),
               axis = 0)
 
           # MCF7
@@ -1137,8 +1137,8 @@ class CNNModel(CommonModelFunc):
                   [-1, embeddingDimension])
 
           self.xData4Discriminator = tf.concat(
-              self.xData4Discriminator,
-              self.roiPoolingH4L1000MCF74Input4Discriminator,
+              (self.xData4Discriminator,
+               self.roiPoolingH4L1000MCF74Input4Discriminator),
               axis = 0)
 
           # PC3
@@ -1148,7 +1148,7 @@ class CNNModel(CommonModelFunc):
                   [-1, embeddingDimension])
 
           self.xData4Discriminator = tf.concat(
-              self.xData4Discriminator,
-              self.roiPoolingH4L1000PC34Input4Discriminator,
+              (self.xData4Discriminator,
+               self.roiPoolingH4L1000PC34Input4Discriminator),
               axis = 0)
 
