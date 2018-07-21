@@ -25,7 +25,7 @@ class Discriminator(CommonModelFunc):
       self.yLabel4Discriminator = tf.placeholder(
           tf.float32,
           [None, num4FeatureTypes],
-          name = "yLabel4Discriminator"]
+          name = "yLabel4Discriminator")
 #      for featureType in featureTypes:
 #        if featureType == "DrugFingerPrint":
 #          # yLabel of discriminator for drug finger print

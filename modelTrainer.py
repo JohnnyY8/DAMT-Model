@@ -17,15 +17,116 @@ class ModelTrainer:
     self.insDataPro = insDataPro
     self.insCNNModel = insCNNModel
     #self.insResultStorer = ResultStorer(FLAGS)
-    #self.merged = tf.summary.merge_all()
+    self.xTrainIndex, self.xTestIndex, self.yTrainIndex, self.yTestIndex = \
+        self.insDataPro.splitData2TrainAndVal()
+
+  # Get the dictionary for training CNN model
+  def getDict4Train4CNNModel(self, ind4xyTrainIndex, ind4Start):
+    batchSize = self.FLAGS.batchSize
+    featureTypes = self.insDataPro.featureTypes
+    feedDict4Train4CNNModel = {}
+
+    for featureType in featureTypes:
+      if featureType == "DrugFingerPrint":
+        batchX4DrugFingerPrint = self.insDataPro.data4DrugFingerPrint[
+            self.xTrainIndex[
+                ind4xyTrainIndex[
+                    ind4Start: ind4Start + batchSize]]]
+
+        feedDict4Train4CNNModel[self.insCNNModel.xData4DrugFingerPrint] = \
+            batchX4DrugFingerPrint
+
+      elif featureType == "DrugPhy":
+        batchX4DrugPhy = self.insDataPro.data4DrugPhy[
+            self.xTrainIndex[
+                ind4xyTrainIndex[
+                    ind4Start: ind4Start + batchSize]]]
+
+        feedDict4Train4CNNModel[self.insCNNModel.xData4DrugPhy] = batchX4DrugPhy
+
+      elif featureType == "L1000":
+        # A375
+        batchX4L1000A375 = self.insDataPro.data4L1000A375[
+            self.xTrainIndex[
+                ind4xyTrainIndex[
+                    ind4Start: ind4Start + batchSize]]]
+
+        feedDict4Train4CNNModel[self.insCNNModel.xData4L1000A375] = batchX4L1000A375
+
+        # HA1E
+        batchX4L1000HA1E = self.insDataPro.data4L1000HA1E[
+            self.xTrainIndex[
+                ind4xyTrainIndex[
+                    ind4Start: ind4Start + batchSize]]]
+
+        feedDict4Train4CNNModel[self.insCNNModel.xData4L1000HA1E] = batchX4L1000HA1E
+
+        # HT29
+        batchX4L1000HT29 = self.insDataPro.data4L1000HT29[
+            self.xTrainIndex[
+                ind4xyTrainIndex[
+                    ind4Start: ind4Start + batchSize]]]
+
+        feedDict4Train4CNNModel[self.insCNNModel.xData4L1000HT29] = batchX4L1000HT29
+
+        # MCF7
+        batchX4L1000MCF7 = self.insDataPro.data4L1000MCF7[
+            self.xTrainIndex[
+                ind4xyTrainIndex[
+                    ind4Start: ind4Start + batchSize]]]
+
+        feedDict4Train4CNNModel[self.insCNNModel.xData4L1000MCF7] = batchX4L1000MCF7
+
+        # PC3
+        batchX4L1000PC3 = self.insDataPro.data4L1000PC3[
+            self.xTrainIndex[
+                ind4xyTrainIndex[
+                    ind4Start: ind4Start + batchSize]]]
+
+        feedDict4Train4CNNModel[self.insCNNModel.xData4L1000PC3] = batchX4L1000PC3
+
+    return feedDict4Train4CNNModel
+
+  # Get the dictionary for testing CNN model
+  def getDict4Test4CNNModel(self, ind4Start):
+    featureTypes = self.insDataPro.featureTypes
+    feedDict4Test4CNNModel = {}
+
+    for featureType in featureTypes:
+      if featureType == "DrugFingerPrint":
+        testX4DrugFingerPrint = self.insDataPro.data4DrugFingerPrint[ind4Start]
+        feedDict4Test4CNNModel[self.insCNNModel.xData4DrugFingerPrint] = testX4DrugFingerPrint
+
+      elif featureType == "DrugPhy":
+        testX4DrugPhy = self.insDataPro.data4DrugPhy[ind4Start]
+        feedDict4Test4CNNModel[self.insCNNModel.xData4DrugPhy] = testX4DrugPhy
+
+      elif featureType == "L1000":
+        # A375
+        testX4L1000A375 = self.insDataPro.data4L1000A375[ind4Start]
+        feedDict4Test4CNNModel[self.insCNNModel.xData4L1000A375] = testX4L1000A375
+
+        # HA1E
+        testX4L1000HA1E = self.insDataPro.data4L1000HA1E[ind4Start]
+        feedDict4Test4CNNModel[self.insCNNModel.xData4L1000HA1E] = testX4L1000HA1E
+
+        # HT29
+        testX4L1000HT29 = self.insDataPro.data4L1000HT29[ind4Start]
+        feedDict4Test4CNNModel[self.insCNNModel.xData4L1000HT29] = testX4L1000HT29
+
+        # MCF7
+        testX4L1000MCF7 = self.insDataPro.data4L1000MCF7[ind4Start]
+        feedDict4Test4CNNModel[self.insCNNModel.xData4L1000MCF7] = testX4L1000MCF7
+
+        # PC3
+        testX4L1000PC3 = self.insDataPro.data4L1000PC3[ind4Start]
+        feedDict4Test4CNNModel[self.insCNNModel.xData4L1000PC3] = testX4L1000PC3
+
+    return feedDict4Test4CNNModel
 
   # Training and validation for LSTM
   def trainLSTM(self, insBiLSTM):
     self.insBiLSTM = insBiLSTM
-    featureTypes = self.insDataPro.featureTypes
-
-    self.xTrainIndex, self.xTestIndex, self.yTrainIndex, self.yTestIndex = \
-        self.insDataPro.splitData2TrainAndVal()
 
     #self.insResultStorer.saveTrainSet(self.xTrainIndex)
     #self.insResultStorer.saveValidationSet(self.xTestIndex)
@@ -33,110 +134,111 @@ class ModelTrainer:
     #self.insResultStorer.saveValidationLabel(self.yTestIndex)
 
     batchSize, bestValAccu = self.FLAGS.batchSize, 0.0
-    self.init = tf.global_variables_initializer()
+    init = tf.global_variables_initializer()
 
     with tf.Session() as sess:
       #saver = tf.train.Saver()
-      sess.run(self.init)
+      sess.run(init)
 
       for i in xrange(self.FLAGS.num4Epoches):
-        print("No.%d epoch started." %(i))
+        print("No.%d epoch started." % (i))
 
-        feedDict4Test = {}
+        # For training
         ind4xyTrainIndex = np.array(range(self.xTrainIndex.shape[0]))
         random.shuffle(ind4xyTrainIndex)
 
         for j in xrange(0, ind4xyTrainIndex.shape[0], batchSize):
-          feedDict4Train = {}
+          feedDict4Train = self.getDict4Train4CNNModel(ind4xyTrainIndex, j)
 
-          for featureType in featureTypes:
-            if featureType == "DrugFingerPrint":
-              batchX4DrugFingerPrint = self.insDataPro.data4DrugFingerPrint[self.xTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
-              feedDict4Train[self.insCNNModel.xData4DrugFingerPrint] = batchX4DrugFingerPrint
+          batchY4Classification = self.insDataPro.label4Classification[
+              self.yTrainIndex[
+                  ind4xyTrainIndex[
+                      j: j + batchSize]]]
 
-            elif featureType == "DrugPhy":
-              batchX4DrugPhy = self.insDataPro.data4DrugPhy[self.xTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
-              feedDict4Train[self.insCNNModel.xData4DrugPhy] = batchX4DrugPhy
-
-            elif featureType == "L1000":
-              # A375
-              batchX4L1000A375 = self.insDataPro.data4L1000A375[self.xTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
-              feedDict4Train[self.insCNNModel.xData4L1000A375] = batchX4L1000A375
-
-              # HA1E
-              batchX4L1000HA1E = self.insDataPro.data4L1000HA1E[self.xTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
-              feedDict4Train[self.insCNNModel.xData4L1000HA1E] = batchX4L1000HA1E
-
-              # HT29
-              batchX4L1000HT29 = self.insDataPro.data4L1000HT29[self.xTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
-              feedDict4Train[self.insCNNModel.xData4L1000HT29] = batchX4L1000HT29
-
-              # MCF7
-              batchX4L1000MCF7 = self.insDataPro.data4L1000MCF7[self.xTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
-              feedDict4Train[self.insCNNModel.xData4L1000MCF7] = batchX4L1000MCF7
-
-              # PC3
-              batchX4L1000PC3 = self.insDataPro.data4L1000PC3[self.xTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
-              feedDict4Train[self.insCNNModel.xData4L1000PC3] = batchX4L1000PC3
-
-          #batchY4Discriminator = self.insDataPro.label4Discriminator[self.yTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
-          #feedDict4Train[self.insCNNModel.yLabel4Discriminator] = batchY4Discriminator
-
-          batchY4Classification = self.insDataPro.label4Classification[self.yTrainIndex[ind4xyTrainIndex[j: j + batchSize]]]
           feedDict4Train[self.insBiLSTM.yLabel4Classification] = batchY4Classification
 
           loss, _ = sess.run([self.insBiLSTM.loss4Classification, self.insBiLSTM.trainStep], feed_dict = feedDict4Train)
-          #print("loss:", loss)
+          print("loss:", loss)
 
-        # For testing
-        for featureType in featureTypes:
-          if featureType == "DrugFingerPrint":
-            testX4DrugFingerPrint = self.insDataPro.data4DrugFingerPrint[self.xTestIndex]
-            feedDict4Test[self.insCNNModel.xData4DrugFingerPrint] = testX4DrugFingerPrint
+        # For validation
+        hammingLoss, oneError, coverage, rankingLoss, jaccardIndex, averagePrecision = \
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 
-          elif featureType == "DrugPhy":
-            testX4DrugPhy = self.insDataPro.data4DrugPhy[self.xTestIndex]
-            feedDict4Test[self.insCNNModel.xData4DrugPhy] = testX4DrugPhy
+        for j in xrange(self.xTestIndex):
+          feedDict4Test = self.getDict4Test4CNNModel(j)
 
-          elif featureType == "L1000":
-            testX4L1000A375 = self.insDataPro.data4L1000A375[self.xTestIndex]
-            feedDict4Test[self.insCNNModel.xData4L1000A375] = testX4L1000A375
+          testY4Classification = self.insDataPro.yLabel4Classification[j]
+          feedDict4Test[self.insBiLSTM.yLabel4Classification] = testY4Classification
 
-            testX4L1000HA1E = self.insDataPro.data4L1000HA1E[self.xTestIndex]
-            feedDict4Test[self.insCNNModel.xData4L1000HA1E] = testX4L1000HA1E
+          score = sess.run(self.insBiLSTM.outputH4LSTM, feed_dict = feedDict4Test)
 
-            testX4L1000HT29 = self.insDataPro.data4L1000HT29[self.xTestIndex]
-            feedDict4Test[self.insCNNModel.xData4L1000HT29] = testX4L1000HT29
+          hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification)
+          oneError += EvaluationMetric.getOneError(score, testY4Classification)
+          coverage += EvaluationMetric.getCoverage(score, testY4Classification)
+          rankingLoss += EvaluationMetric.getRankingLoss(score, testY4Classification)
+          jaccardIndex += EvaluationMetric.getJaccardIndex(score, testY4Classification)
+          averagePrecision += EvaluationMetric.getAveragePrecision(score, testY4Classification)
 
-            testX4L1000MCF7 = self.insDataPro.data4L1000MCF7[self.xTestIndex]
-            feedDict4Test[self.insCNNModel.xData4L1000MCF7] = testX4L1000MCF7
-
-            testX4L1000PC3 = self.insDataPro.data4L1000PC3[self.xTestIndex]
-            feedDict4Test[self.insCNNModel.xData4L1000PC3] = testX4L1000PC3
-
-        testY4Classification = self.insDataPro.label4Classification[self.yTestIndex]
-        feedDict4Test[self.insCNNModel.yLabel4Classification] = testY4Classification
-
-        score = sess.run(self.insBiLSTM.outputH4LSTM, feed_dict = feedDict4Test)
-
-        hammingLoss = EvaluationMetric.getHammingLoss(score, testY4Classification)
-        oneError = EvaluationMetric.getOneError(score, testY4Classification)
-        coverage = EvaluationMetric.getCoverage(score, testY4Classification)
-        rankingLoss = EvaluationMetric.getRankingLoss(score, testY4Classification)
-        jaccardIndex = EvaluationMetric.getJaccardIndex(score, testY4Classification)
-        averagePrecision = EvaluationMetric.getAveragePrecision(score, testY4Classification)
-
-        print "  hammingLoss:", hammingLoss
-        print "  oneError:", oneError
-        print "  coverage:", coverage
-        print "  rankingLoss:", rankingLoss
-        print "  jaccardIndex:", jaccardIndex
-        print "  averagePrecision:", averagePrecision
+        print "  hammingLoss:", hammingLoss / self.xTestIndex.shape[0]
+        print "  oneError:", oneError / self.xTestIndex.shape[0]
+        print "  coverage:", coverage / self.xTestIndex.shape[0]
+        print "  rankingLoss:", rankingLoss / self.xTestIndex.shape[0]
+        print "  jaccardIndex:", jaccardIndex / self.xTestIndex.shape[0]
+        print "  averagePrecision:", averagePrecision / self.xTestIndex.shape[0]
 
   # Traing and validation for discriminator
   def trainDiscriminator(self, insDiscriminator):
-     self.xTrain, self.xTest, self.yTrain, self.yTest = \
-        self.insDataPro.splitData2TrainAndVal()
+    self.insDiscriminator = insDiscriminator
 
+    batchSize, bestValAccu = self.FLAGS.batchSize, 0.0
+    init = tf.global_variables_initializer()
+
+    with tf.Session() as sess:
+      #saver = tf.train.Saver()
+      sess.run(init)
+
+      for i in xrange(self.FLAGS.num4Epoches):
+        print("No.%d epoch started." % (i))
+
+        # For training
+        ind4xyTrainIndex = np.array(range(self.xTrainIndex.shape[0]))
+        random.shuffle(ind4xyTrainIndex)
+
+        for j in xrange(0, ind4xyTrainIndex.shape[0], batchSize):
+          feedDict4Train = self.getDict4Train4CNNModel(ind4xyTrainIndex, j)
+
+          #for featureType in featureTypes:
+          #  if featureType == "DrugFingerPrint":
+          #    batchY4Discriminator4DrugFingerPrint = \
+          #        self.insDataPro.yLabel4Discriminator4DrugFingerPrint[
+          #            self.yTrainIndex[
+          #                ind4xyTrainIndex[
+          #                    j: j + batchSize]]]
+
+          #    feedDict4Train[self.insDiscriminator.yLabel4Discriminator4DrugFingerPrint] = \
+          #        batchY4Discriminator4DrugFingerPrint
+
+          #  elif featureType == "DrugPhy":
+          #    batchY4Discriminator4DrugPhy = \
+          #        self.insDataPro.yLabel4Discriminator4DrugPhy[
+          #            self.yTrainIndex[
+          #                ind4xyTrainIndex[
+          #                    j: j + batchSize]]]
+
+          #    feedDict4Train[self.insDiscriminator.yLabel4Discriminator4DrugPhy] = \
+          #        batchY4Discriminator4DrugPhy
+
+          #  elif featureType == "L1000":
+          #    batchY4Discriminator4L100 = \
+          #        self.insDataPro.yLabel4Discriminator4L1000[
+          #            self.yTrainIndex[
+          #                ind4xyTrainIndex[
+          #                    j: j + batchSize]]]
+
+          #    feedDict4Train[self.insDiscriminator.yLabel4Discriminator4L1000] = \
+          #        batchY4Discriminator4L1000
+
+          loss, _ = sess.run([self.insDiscriminator.loss4Discriminator, self.insDiscriminator.trainStep], feed_dict = feedDict4Train)
+          print("loss:", loss)
 
 
