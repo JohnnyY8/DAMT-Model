@@ -105,7 +105,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "batchSize",
-    20,
+    17,
     "Batch size for training.")
 
 flags.DEFINE_integer(
@@ -141,7 +141,7 @@ if __name__ == "__main__":
   # Load data
   insDataPro = DataPro(FLAGS)
   insDataPro.getData()
-  insDataPro.getLabels4Discriminator()
+  #insDataPro.getLabels4Discriminator()
   insDataPro.getLabels4Classification()
 
   # Get cnn model
