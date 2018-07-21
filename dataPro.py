@@ -11,9 +11,7 @@ class DataPro:
   def __init__(self, FLAGS):
     self.FLAGS = FLAGS
     self.featureTypes = np.array(["DrugFingerPrint", "DrugPhy", "L1000"])
-    #self.featureTypes = np.array(["DrugFingerPrint", "DrugPhy"])
-    #self.featureTypes = np.array(["DrugPhy", "L1000"])
-    #self.featureTypes = np.array(["DrugFingerPrint", "L1000"])
+    self.num4FeatureTypes = self.featureTypes.shape[0]
     self.cls = np.array(["A375", "HA1E", "HT29", "MCF7", "PC3"])
     self.num4Features4Instance = 0
     self.num4Features4DrugFingerPrint = 0
@@ -44,22 +42,36 @@ class DataPro:
 
   # ===== Get feature types as label for discriminator =====
   def getLabels4Discriminator(self):
-    self.num4FeatureTypes = self.featureTypes.shape[0]
-
     for ind, featureType in enumerate(self.featureTypes):
-      tempLabel = np.zeros([self.FLAGS.num4Data, self.num4FeatureTypes])
-      tempLabel[:, ind] = 1
-
       if featureType == "DrugFingerPrint":
-        self.label4DrugFingerPrint4Discriminator = tempLabel
+        tempLabel = np.zeros([self.FLAGS.batchSize, self.num4FeatureTypes])
+        tempLabel[:, ind] = 1
+
+        if ind == 0:
+          self.label4Discriminator = tempLabel
+        else:
+          self.label4Discriminator = np.vstack(
+              (self.label4Discriminator, tempLabel))
+
       elif featureType == "DrugPhy":
-        self.label4DrugPhy4Discriminator = tempLabel
+        tempLabel = np.zeros([self.FLAGS.batchSize, self.num4FeatureTypes])
+        tempLabel[:, ind] = 1
+
+        if ind == 0:
+          self.label4Discriminator = tempLabel
+        else:
+          self.label4Discriminator = np.vstack(
+              (self.label4Discriminator, tempLabel))
+
       elif featureType == "L1000":
-        self.label4L10004A3754Discriminator = tempLabel
-        self.label4L10004HA1E4Discriminator = tempLabel
-        self.label4L10004HT294Discriminator = tempLabel
-        self.label4L10004MCF74Discriminator = tempLabel
-        self.label4L10004PC34Discriminator = tempLabel
+        tempLabel = np.zeros([self.FLAGS.batchSize * 5, self.num4FeatureTypes])
+        tempLabel[:, ind] = 1
+
+        if ind == 0:
+          self.label4Discriminator = tempLabel
+        else:
+          self.label4Discriminator = np.vstack(
+              (self.label4Discriminator, tempLabel))
 
   # ===== Get label for classification =====
   def getLabels4Classification(self):
