@@ -105,7 +105,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "batchSize",
-    2,
+    1,
     "Batch size for training.")
 
 flags.DEFINE_integer(
@@ -141,20 +141,21 @@ if __name__ == "__main__":
   # Load data
   insDataPro = DataPro(FLAGS)
   insDataPro.getData()
-  #insDataPro.getLabels4Discriminator()
+  insDataPro.getLabels4Discriminator()
   insDataPro.getLabels4Classification()
 
   # Get cnn model
   insCNNModel = CNNModel(FLAGS, insDataPro)
   insCNNModel.getCNNModel()
 
+  insModelTrainer = ModelTrainer(FLAGS, insDataPro, insCNNModel)
+
   # Get discriminator
   insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
+  insDiscriminator.getDiscriminator()
+  insModelTrainer.trainDiscriminator(insDiscriminator)
 
   # Get biLSTM
-  insBiLSTM = BiLSTM(FLAGS, insDataPro, insCNNModel)
-  insBiLSTM.getBiLSTM()
-
-  # Get trainer for biLSTM
-  insModelTrainer4BiLSTM = ModelTrainer(FLAGS, insDataPro, insCNNModel)
-  insModelTrainer4BiLSTM.trainLSTM(insBiLSTM)
+  #insBiLSTM = BiLSTM(FLAGS, insDataPro, insCNNModel)
+  #insBiLSTM.getBiLSTM()
+  #insModelTrainer.trainLSTM(insBiLSTM)

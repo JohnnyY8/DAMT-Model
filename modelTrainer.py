@@ -207,38 +207,15 @@ class ModelTrainer:
         for j in xrange(0, ind4xyTrainIndex.shape[0], batchSize):
           feedDict4Train = self.getDict4Train4CNNModel(ind4xyTrainIndex, j)
 
-          #for featureType in featureTypes:
-          #  if featureType == "DrugFingerPrint":
-          #    batchY4Discriminator4DrugFingerPrint = \
-          #        self.insDataPro.yLabel4Discriminator4DrugFingerPrint[
-          #            self.yTrainIndex[
-          #                ind4xyTrainIndex[
-          #                    j: j + batchSize]]]
+          feedDict4Train[self.insDiscriminator.yLabel4Discriminator] = \
+              self.insDataPro.label4Discriminator
 
-          #    feedDict4Train[self.insDiscriminator.yLabel4Discriminator4DrugFingerPrint] = \
-          #        batchY4Discriminator4DrugFingerPrint
-
-          #  elif featureType == "DrugPhy":
-          #    batchY4Discriminator4DrugPhy = \
-          #        self.insDataPro.yLabel4Discriminator4DrugPhy[
-          #            self.yTrainIndex[
-          #                ind4xyTrainIndex[
-          #                    j: j + batchSize]]]
-
-          #    feedDict4Train[self.insDiscriminator.yLabel4Discriminator4DrugPhy] = \
-          #        batchY4Discriminator4DrugPhy
-
-          #  elif featureType == "L1000":
-          #    batchY4Discriminator4L100 = \
-          #        self.insDataPro.yLabel4Discriminator4L1000[
-          #            self.yTrainIndex[
-          #                ind4xyTrainIndex[
-          #                    j: j + batchSize]]]
-
-          #    feedDict4Train[self.insDiscriminator.yLabel4Discriminator4L1000] = \
-          #        batchY4Discriminator4L1000
-
-          loss, _ = sess.run([self.insDiscriminator.loss4Discriminator, self.insDiscriminator.trainStep], feed_dict = feedDict4Train)
+          loss, accu, _ = sess.run(
+              [self.insDiscriminator.loss4Discriminator,
+               self.insDiscriminator.accu4Discriminator,
+               self.insDiscriminator.trainStep],
+              feed_dict = feedDict4Train)
           print("loss:", loss)
+          print("accu:", accu)
 
 
