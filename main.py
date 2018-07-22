@@ -15,7 +15,7 @@ flags = tf.app.flags
 
 flags.DEFINE_string(
     "gpuId",
-    "1",
+    "0",
     "Which gpu is assigned.")
 
 flags.DEFINE_string(
@@ -105,7 +105,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "batchSize",
-    1,
+    2,
     "Batch size for training.")
 
 flags.DEFINE_integer(
@@ -151,11 +151,11 @@ if __name__ == "__main__":
   insModelTrainer = ModelTrainer(FLAGS, insDataPro, insCNNModel)
 
   # Get discriminator
-  insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
-  insDiscriminator.getDiscriminator()
-  insModelTrainer.trainDiscriminator(insDiscriminator)
+  #insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
+  #insDiscriminator.getDiscriminator()
+  #insModelTrainer.trainDiscriminator(insDiscriminator)
 
   # Get biLSTM
-  #insBiLSTM = BiLSTM(FLAGS, insDataPro, insCNNModel)
-  #insBiLSTM.getBiLSTM()
-  #insModelTrainer.trainLSTM(insBiLSTM)
+  insBiLSTM = BiLSTM(FLAGS, insDataPro, insCNNModel)
+  insBiLSTM.getBiLSTM()
+  insModelTrainer.trainLSTM(insBiLSTM)

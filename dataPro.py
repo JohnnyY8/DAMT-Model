@@ -11,8 +11,8 @@ class DataPro:
   def __init__(self, FLAGS):
     self.FLAGS = FLAGS
     self.featureTypes = np.array(["DrugFingerPrint", "DrugPhy", "L1000"])
-    self.num4FeatureTypes = self.featureTypes.shape[0]
     self.cls = np.array(["A375", "HA1E", "HT29", "MCF7", "PC3"])
+    self.num4FeatureTypes = self.featureTypes.shape[0]
     self.num4Features4Instance = 0
     self.num4Features4DrugFingerPrint = 0
     self.num4Features4DrugPhy = 0

@@ -89,37 +89,52 @@ class ModelTrainer:
 
   # Get the dictionary for testing CNN model
   def getDict4Test4CNNModel(self, ind4Start):
+    batchSize = self.FLAGS.batchSize
     featureTypes = self.insDataPro.featureTypes
     feedDict4Test4CNNModel = {}
 
     for featureType in featureTypes:
       if featureType == "DrugFingerPrint":
-        testX4DrugFingerPrint = self.insDataPro.data4DrugFingerPrint[ind4Start]
+        testX4DrugFingerPrint = \
+            self.insDataPro.data4DrugFingerPrint[ind4Start: ind4Start + batchSize]
+
         feedDict4Test4CNNModel[self.insCNNModel.xData4DrugFingerPrint] = testX4DrugFingerPrint
 
       elif featureType == "DrugPhy":
-        testX4DrugPhy = self.insDataPro.data4DrugPhy[ind4Start]
+        testX4DrugPhy = \
+            self.insDataPro.data4DrugPhy[ind4Start: ind4Start + batchSize]
+
         feedDict4Test4CNNModel[self.insCNNModel.xData4DrugPhy] = testX4DrugPhy
 
       elif featureType == "L1000":
         # A375
-        testX4L1000A375 = self.insDataPro.data4L1000A375[ind4Start]
+        testX4L1000A375 = \
+            self.insDataPro.data4L1000A375[ind4Start: ind4Start + batchSize]
+
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000A375] = testX4L1000A375
 
         # HA1E
-        testX4L1000HA1E = self.insDataPro.data4L1000HA1E[ind4Start]
+        testX4L1000HA1E = \
+            self.insDataPro.data4L1000HA1E[ind4Start: ind4Start + batchSize]
+
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000HA1E] = testX4L1000HA1E
 
         # HT29
-        testX4L1000HT29 = self.insDataPro.data4L1000HT29[ind4Start]
+        testX4L1000HT29 = \
+            self.insDataPro.data4L1000HT29[ind4Start: ind4Start + batchSize]
+
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000HT29] = testX4L1000HT29
 
         # MCF7
-        testX4L1000MCF7 = self.insDataPro.data4L1000MCF7[ind4Start]
+        testX4L1000MCF7 = \
+            self.insDataPro.data4L1000MCF7[ind4Start: ind4Start + batchSize]
+
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000MCF7] = testX4L1000MCF7
 
         # PC3
-        testX4L1000PC3 = self.insDataPro.data4L1000PC3[ind4Start]
+        testX4L1000PC3 = \
+            self.insDataPro.data4L1000PC3[ind4Start: ind4Start + batchSize]
+
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000PC3] = testX4L1000PC3
 
     return feedDict4Test4CNNModel
@@ -164,20 +179,20 @@ class ModelTrainer:
         hammingLoss, oneError, coverage, rankingLoss, jaccardIndex, averagePrecision = \
             0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 
-        for j in xrange(self.xTestIndex):
+        for j in xrange(0, self.xTestIndex.shape[0], batchSize):
           feedDict4Test = self.getDict4Test4CNNModel(j)
 
-          testY4Classification = self.insDataPro.yLabel4Classification[j]
+          testY4Classification = self.insDataPro.label4Classification[self.xTestIndex[j: j + batchSize]]
           feedDict4Test[self.insBiLSTM.yLabel4Classification] = testY4Classification
 
           score = sess.run(self.insBiLSTM.outputH4LSTM, feed_dict = feedDict4Test)
 
-          hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification)
-          oneError += EvaluationMetric.getOneError(score, testY4Classification)
-          coverage += EvaluationMetric.getCoverage(score, testY4Classification)
-          rankingLoss += EvaluationMetric.getRankingLoss(score, testY4Classification)
-          jaccardIndex += EvaluationMetric.getJaccardIndex(score, testY4Classification)
-          averagePrecision += EvaluationMetric.getAveragePrecision(score, testY4Classification)
+          hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification) / batchSize
+          oneError += EvaluationMetric.getOneError(score, testY4Classification) / batchSize
+          coverage += EvaluationMetric.getCoverage(score, testY4Classification) / batchSize
+          rankingLoss += EvaluationMetric.getRankingLoss(score, testY4Classification) / batchSize
+          jaccardIndex += EvaluationMetric.getJaccardIndex(score, testY4Classification) / batchSize
+          averagePrecision += EvaluationMetric.getAveragePrecision(score, testY4Classification) / batchSize
 
         print "  hammingLoss:", hammingLoss / self.xTestIndex.shape[0]
         print "  oneError:", oneError / self.xTestIndex.shape[0]

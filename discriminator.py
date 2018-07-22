@@ -17,7 +17,6 @@ class Discriminator(CommonModelFunc):
   # Get a graph for discriminator
   def getDiscriminator(self):
     embeddingDimension = self.FLAGS.embeddingDimension
-    featureTypes = self.insDataPro.featureTypes
     num4FeatureTypes = self.insDataPro.num4FeatureTypes
 
     # ===== Discriminator layer =====
