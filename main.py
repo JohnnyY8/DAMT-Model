@@ -70,32 +70,32 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "num4OutputChannels4Conv1",
-    320,
-    #8,
+    #320,
+    8,
     "Number of output channels for conv1 layer.")
 
 flags.DEFINE_integer(
     "num4InputChannels4Conv2",
-    320,
-    #8,
+    #320,
+    8,
     "Number of input channels for conv2 layer.")
 
 flags.DEFINE_integer(
     "num4OutputChannels4Conv2",
-    480,
-    #12,
+    #480,
+    12,
     "Number of output channels for conv2 layer.")
 
 flags.DEFINE_integer(
     "num4InputChannels4Conv3",
-    480,
-    #12,
+    #480,
+    12,
     "Number of input channels for conv3 layer.")
 
 flags.DEFINE_integer(
     "num4OutputChannels4Conv3",
-    960,
-    #24,
+    #960,
+    24,
     "Number of output channels for conv3 layer.")
 
 flags.DEFINE_integer(
@@ -125,7 +125,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "num4Epoches",
-    1000,
+    100,
     "Epoches for training.")
 
 flags.DEFINE_integer(
@@ -151,8 +151,8 @@ if __name__ == "__main__":
   insModelTrainer = ModelTrainer(FLAGS, insDataPro, insCNNModel)
 
   # Get discriminator
-  #insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
-  #insDiscriminator.getDiscriminator()
+  insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
+  insDiscriminator.getDiscriminator()
   #insModelTrainer.trainDiscriminator(insDiscriminator)
 
   # Get biLSTM

@@ -173,7 +173,7 @@ class ModelTrainer:
           feedDict4Train[self.insBiLSTM.yLabel4Classification] = batchY4Classification
 
           loss, _ = sess.run([self.insBiLSTM.loss4Classification, self.insBiLSTM.trainStep], feed_dict = feedDict4Train)
-          print("loss:", loss)
+          #print("loss:", loss)
 
         # For validation
         hammingLoss, oneError, coverage, rankingLoss, jaccardIndex, averagePrecision = \
@@ -187,12 +187,12 @@ class ModelTrainer:
 
           score = sess.run(self.insBiLSTM.outputH4LSTM, feed_dict = feedDict4Test)
 
-          hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification) / batchSize
-          oneError += EvaluationMetric.getOneError(score, testY4Classification) / batchSize
-          coverage += EvaluationMetric.getCoverage(score, testY4Classification) / batchSize
-          rankingLoss += EvaluationMetric.getRankingLoss(score, testY4Classification) / batchSize
-          jaccardIndex += EvaluationMetric.getJaccardIndex(score, testY4Classification) / batchSize
-          averagePrecision += EvaluationMetric.getAveragePrecision(score, testY4Classification) / batchSize
+          hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification) * batchSize
+          oneError += EvaluationMetric.getOneError(score, testY4Classification) * batchSize
+          coverage += EvaluationMetric.getCoverage(score, testY4Classification) * batchSize
+          rankingLoss += EvaluationMetric.getRankingLoss(score, testY4Classification) * batchSize
+          jaccardIndex += EvaluationMetric.getJaccardIndex(score, testY4Classification) * batchSize
+          averagePrecision += EvaluationMetric.getAveragePrecision(score, testY4Classification) * batchSize
 
         print "  hammingLoss:", hammingLoss / self.xTestIndex.shape[0]
         print "  oneError:", oneError / self.xTestIndex.shape[0]
@@ -230,7 +230,7 @@ class ModelTrainer:
                self.insDiscriminator.accu4Discriminator,
                self.insDiscriminator.trainStep],
               feed_dict = feedDict4Train)
-          print("loss:", loss)
-          print("accu:", accu)
+        print("loss:", loss)
+        print("accu:", accu)
 
 
