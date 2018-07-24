@@ -173,7 +173,7 @@ class ModelTrainer:
           feedDict4Train[self.insBiLSTM.yLabel4Classification] = batchY4Classification
 
           loss, _ = sess.run([self.insBiLSTM.loss4Classification, self.insBiLSTM.trainStep], feed_dict = feedDict4Train)
-          #print("loss:", loss)
+          print("loss:", loss)
 
         # For validation
         hammingLoss, oneError, coverage, rankingLoss, jaccardIndex, averagePrecision = \

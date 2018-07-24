@@ -105,7 +105,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "batchSize",
-    1,
+    2,
     "Batch size for training.")
 
 flags.DEFINE_integer(
