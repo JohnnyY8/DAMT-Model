@@ -105,7 +105,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "batchSize",
-    2,
+    100,
     "Batch size for training.")
 
 flags.DEFINE_integer(
@@ -125,7 +125,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "num4Epoches",
-    1000,
+    200,
     "Epoches for training.")
 
 flags.DEFINE_integer(
@@ -141,13 +141,12 @@ if __name__ == "__main__":
   # Load data
   insDataPro = DataPro(FLAGS)
   insDataPro.getData()
-  #insDataPro.getLabels4Discriminator()
-  insDataPro.getLabels4Classification()
 
   # Get cnn model
   insCNNModel = CNNModel(FLAGS, insDataPro)
   insCNNModel.getCNNModel()
 
+  # Get model trainer instance
   insModelTrainer = ModelTrainer(FLAGS, insDataPro, insCNNModel)
 
   # Get discriminator
@@ -156,6 +155,7 @@ if __name__ == "__main__":
   #insModelTrainer.trainDiscriminator(insDiscriminator)
 
   # Get biLSTM
+  insDataPro.getLabels4Classification()
   insBiLSTM = BiLSTM(FLAGS, insDataPro, insCNNModel)
   insBiLSTM.getBiLSTM()
   insModelTrainer.trainLSTM(insBiLSTM)
