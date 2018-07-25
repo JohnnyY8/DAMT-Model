@@ -187,12 +187,13 @@ class ModelTrainer:
 
           score = sess.run(self.insBiLSTM.outputH4LSTM, feed_dict = feedDict4Test)
 
-          hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification) * batchSize
-          oneError += EvaluationMetric.getOneError(score, testY4Classification) * batchSize
-          coverage += EvaluationMetric.getCoverage(score, testY4Classification) * batchSize
-          rankingLoss += EvaluationMetric.getRankingLoss(score, testY4Classification) * batchSize
-          jaccardIndex += EvaluationMetric.getJaccardIndex(score, testY4Classification) * batchSize
-          averagePrecision += EvaluationMetric.getAveragePrecision(score, testY4Classification) * batchSize
+          num4BatchInIteration = testY4Classification.shape[0]
+          hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification) * num4BatchInIteration
+          oneError += EvaluationMetric.getOneError(score, testY4Classification) * num4BatchInIteration
+          coverage += EvaluationMetric.getCoverage(score, testY4Classification) * num4BatchInIteration
+          rankingLoss += EvaluationMetric.getRankingLoss(score, testY4Classification) * num4BatchInIteration
+          jaccardIndex += EvaluationMetric.getJaccardIndex(score, testY4Classification) * num4BatchInIteration
+          averagePrecision += EvaluationMetric.getAveragePrecision(score, testY4Classification) * num4BatchInIteration
 
         print "  hammingLoss:", hammingLoss / self.xTestIndex.shape[0]
         print "  oneError:", oneError / self.xTestIndex.shape[0]
@@ -222,15 +223,33 @@ class ModelTrainer:
         for j in xrange(0, ind4xyTrainIndex.shape[0], batchSize):
           feedDict4Train = self.getDict4Train4CNNModel(ind4xyTrainIndex, j)
 
+          for key in feedDict4Train:
+            num4BatchInIteration = feedDict4Train[key].shape[0]
+            break
           feedDict4Train[self.insDiscriminator.yLabel4Discriminator] = \
-              self.insDataPro.label4Discriminator
+              self.insDataPro.getLabels4Discriminator(num4BatchInIteration)
 
           loss, accu, _ = sess.run(
               [self.insDiscriminator.loss4Discriminator,
                self.insDiscriminator.accu4Discriminator,
                self.insDiscriminator.trainStep],
               feed_dict = feedDict4Train)
-        print("loss:", loss)
-        print("accu:", accu)
 
+        resAccu = 0.0
+        for j in xrange(0, self.xTestIndex.shape[0], batchSize):
+          feedDict4Test = self.getDict4Test4CNNModel(j)
 
+          for key in feedDict4Test:
+            num4BatchInIteration = feedDict4Test[key].shape[0]
+            break
+          feedDict4Test[self.insDiscriminator.yLabel4Discriminator] = \
+              self.insDataPro.getLabels4Discriminator(num4BatchInIteration)
+
+          score, accu = sess.run(
+              [self.insDiscriminator.discriminatorH,
+               self.insDiscriminator.accu4Discriminator],
+              feed_dict = feedDict4Test)
+
+          resAccu += accu * batchSize
+
+        print "  accu4Discriminator:", resAccu / self.xTestIndex.shape[0]
