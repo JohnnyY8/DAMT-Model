@@ -14,8 +14,8 @@ class EvaluationMetric:
     :return: 计算出来的Jaccard index
     '''
     tempScore = score.copy()
-    tempScore[tempScore < threshold] = 0
-    tempScore[tempScore >= threshold] = 1
+    tempScore[tempScore < threshold] = 0.0
+    tempScore[tempScore >= threshold] = 1.0
 
     intersection = tempScore * label  # 计算预测结果和真实标签的交集
     union = tempScore + label  # 计算预测结果和真实标签的并集
@@ -34,15 +34,15 @@ class EvaluationMetric:
     :return: 计算出来的Average Precision
     '''
     sortArg = np.argsort(-score, axis = 1)  # 概率值从大到小排序，得到下标
-    count4AllPre = 0  # 最终结果的叠加值
+    count4AllPre = 0.0  # 最终结果的叠加值
 
     for ind4Row, row in enumerate(sortArg):
-      count4EachData, count4PreEachLabel = 0, 0
+      count4EachData, count4PreEachLabel = 0.0, 0.0
       for ind4Col, col in enumerate(row):
         if label[ind4Row, col] == 1:
           count4PreEachLabel += 1
-          count4EachData += count4PreEachLabel / float(ind4Col + 1)
-      count4AllPre += count4EachData / float(np.sum(label[ind4Row]))
+          count4EachData += count4PreEachLabel / ind4Col + 1
+      count4AllPre += count4EachData / np.sum(label[ind4Row])
     averagePrecision = count4AllPre / sortArg.shape[0]
 
     return averagePrecision
