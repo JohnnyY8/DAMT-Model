@@ -41,10 +41,10 @@ class DataPro:
         self.num4Features4Instance += 5
 
   # ===== Get feature types as label for discriminator =====
-  def getLabels4Discriminator(self):
+  def getLabels4Discriminator(self, num4BatchInIteration):
     for ind, featureType in enumerate(self.featureTypes):
       if featureType == "DrugFingerPrint":
-        tempLabel = np.zeros([self.FLAGS.batchSize, self.num4FeatureTypes])
+        tempLabel = np.zeros([num4BatchInIteration, self.num4FeatureTypes])
         tempLabel[:, ind] = 1
 
         if ind == 0:
@@ -54,7 +54,7 @@ class DataPro:
               (self.label4Discriminator, tempLabel))
 
       elif featureType == "DrugPhy":
-        tempLabel = np.zeros([self.FLAGS.batchSize, self.num4FeatureTypes])
+        tempLabel = np.zeros([num4BatchInIteration, self.num4FeatureTypes])
         tempLabel[:, ind] = 1
 
         if ind == 0:
@@ -65,7 +65,7 @@ class DataPro:
 
       elif featureType == "L1000":
         num4Cls = self.cls.shape[0]
-        tempLabel = np.zeros([self.FLAGS.batchSize * num4Cls, self.num4FeatureTypes])
+        tempLabel = np.zeros([num4BatchInIteration * num4Cls, self.num4FeatureTypes])
         tempLabel[:, ind] = 1
 
         if ind == 0:
@@ -73,6 +73,8 @@ class DataPro:
         else:
           self.label4Discriminator = np.vstack(
               (self.label4Discriminator, tempLabel))
+
+    return self.label4Discriminator
 
   # ===== Get label for classification =====
   def getLabels4Classification(self):
