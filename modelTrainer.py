@@ -96,44 +96,44 @@ class ModelTrainer:
     for featureType in featureTypes:
       if featureType == "DrugFingerPrint":
         testX4DrugFingerPrint = \
-            self.insDataPro.data4DrugFingerPrint[ind4Start: ind4Start + batchSize]
+            self.insDataPro.data4DrugFingerPrint[self.xTestIndex[ind4Start: ind4Start + batchSize]]
 
         feedDict4Test4CNNModel[self.insCNNModel.xData4DrugFingerPrint] = testX4DrugFingerPrint
 
       elif featureType == "DrugPhy":
         testX4DrugPhy = \
-            self.insDataPro.data4DrugPhy[ind4Start: ind4Start + batchSize]
+            self.insDataPro.data4DrugPhy[self.xTestIndex[ind4Start: ind4Start + batchSize]]
 
         feedDict4Test4CNNModel[self.insCNNModel.xData4DrugPhy] = testX4DrugPhy
 
       elif featureType == "L1000":
         # A375
         testX4L1000A375 = \
-            self.insDataPro.data4L1000A375[ind4Start: ind4Start + batchSize]
+            self.insDataPro.data4L1000A375[self.xTestIndex[ind4Start: ind4Start + batchSize]]
 
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000A375] = testX4L1000A375
 
         # HA1E
         testX4L1000HA1E = \
-            self.insDataPro.data4L1000HA1E[ind4Start: ind4Start + batchSize]
+            self.insDataPro.data4L1000HA1E[self.xTestIndex[ind4Start: ind4Start + batchSize]]
 
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000HA1E] = testX4L1000HA1E
 
         # HT29
         testX4L1000HT29 = \
-            self.insDataPro.data4L1000HT29[ind4Start: ind4Start + batchSize]
+            self.insDataPro.data4L1000HT29[self.xTestIndex[ind4Start: ind4Start + batchSize]]
 
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000HT29] = testX4L1000HT29
 
         # MCF7
         testX4L1000MCF7 = \
-            self.insDataPro.data4L1000MCF7[ind4Start: ind4Start + batchSize]
+            self.insDataPro.data4L1000MCF7[self.xTestIndex[ind4Start: ind4Start + batchSize]]
 
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000MCF7] = testX4L1000MCF7
 
         # PC3
         testX4L1000PC3 = \
-            self.insDataPro.data4L1000PC3[ind4Start: ind4Start + batchSize]
+            self.insDataPro.data4L1000PC3[self.xTestIndex[ind4Start: ind4Start + batchSize]]
 
         feedDict4Test4CNNModel[self.insCNNModel.xData4L1000PC3] = testX4L1000PC3
 
@@ -173,7 +173,7 @@ class ModelTrainer:
           feedDict4Train[self.insBiLSTM.yLabel4Classification] = batchY4Classification
 
           loss, _ = sess.run([self.insBiLSTM.loss4Classification, self.insBiLSTM.trainStep], feed_dict = feedDict4Train)
-          print("loss:", loss)
+          #print("loss:", loss)
 
         # For validation
         hammingLoss, oneError, coverage, rankingLoss, jaccardIndex, averagePrecision = \

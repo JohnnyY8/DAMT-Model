@@ -64,7 +64,8 @@ class DataPro:
               (self.label4Discriminator, tempLabel))
 
       elif featureType == "L1000":
-        tempLabel = np.zeros([self.FLAGS.batchSize * 5, self.num4FeatureTypes])
+        num4Cls = self.cls.shape[0]
+        tempLabel = np.zeros([self.FLAGS.batchSize * num4Cls, self.num4FeatureTypes])
         tempLabel[:, ind] = 1
 
         if ind == 0:

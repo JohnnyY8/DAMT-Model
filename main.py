@@ -15,7 +15,7 @@ flags = tf.app.flags
 
 flags.DEFINE_string(
     "gpuId",
-    "0",
+    "1",
     "Which gpu is assigned.")
 
 flags.DEFINE_string(
@@ -50,7 +50,7 @@ flags.DEFINE_float(
 
 flags.DEFINE_float(
     "learningRate",
-    0.0001,
+    0.001,
     "Learning rate.")
 
 flags.DEFINE_float(
@@ -125,7 +125,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "num4Epoches",
-    100,
+    1000,
     "Epoches for training.")
 
 flags.DEFINE_integer(
@@ -141,7 +141,7 @@ if __name__ == "__main__":
   # Load data
   insDataPro = DataPro(FLAGS)
   insDataPro.getData()
-  insDataPro.getLabels4Discriminator()
+  #insDataPro.getLabels4Discriminator()
   insDataPro.getLabels4Classification()
 
   # Get cnn model
@@ -151,8 +151,8 @@ if __name__ == "__main__":
   insModelTrainer = ModelTrainer(FLAGS, insDataPro, insCNNModel)
 
   # Get discriminator
-  insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
-  insDiscriminator.getDiscriminator()
+  #insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
+  #insDiscriminator.getDiscriminator()
   #insModelTrainer.trainDiscriminator(insDiscriminator)
 
   # Get biLSTM
