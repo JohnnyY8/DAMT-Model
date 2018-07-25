@@ -41,7 +41,7 @@ class EvaluationMetric:
       for ind4Col, col in enumerate(row):
         if label[ind4Row, col] == 1:
           count4PreEachLabel += 1
-          count4EachData += count4PreEachLabel / ind4Col + 1
+          count4EachData += count4PreEachLabel / (ind4Col + 1)
       count4AllPre += count4EachData / np.sum(label[ind4Row])
     averagePrecision = count4AllPre / sortArg.shape[0]
 

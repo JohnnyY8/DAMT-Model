@@ -15,7 +15,7 @@ flags = tf.app.flags
 
 flags.DEFINE_string(
     "gpuId",
-    "1",
+    "0",
     "Which gpu is assigned.")
 
 flags.DEFINE_string(
