@@ -70,7 +70,6 @@ class BiLSTM(CommonModelFunc):
 
       self.outputH4LSTM = tf.nn.sigmoid(self.outputZ4LSTM, name = name4H)
 
-
     # ===== Loss layer for LSTM =====
     with tf.variable_scope("loss4ClassificationLayer"):
       name4Loss4Classification = "loss4Classification"

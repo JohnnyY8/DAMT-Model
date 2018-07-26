@@ -142,13 +142,13 @@ class ModelTrainer:
   # Training and validation for LSTM
   def trainLSTM(self, insBiLSTM):
     self.insBiLSTM = insBiLSTM
+    batchSize = self.FLAGS.batchSize
 
     #self.insResultStorer.saveTrainSet(self.xTrainIndex)
     #self.insResultStorer.saveValidationSet(self.xTestIndex)
     #self.insResultStorer.saveTrainLabel(self.yTrainIndex)
     #self.insResultStorer.saveValidationLabel(self.yTestIndex)
 
-    batchSize, bestValAccu = self.FLAGS.batchSize, 0.0
     init = tf.global_variables_initializer()
 
     with tf.Session() as sess:
@@ -173,7 +173,6 @@ class ModelTrainer:
           feedDict4Train[self.insBiLSTM.yLabel4Classification] = batchY4Classification
 
           loss, _ = sess.run([self.insBiLSTM.loss4Classification, self.insBiLSTM.trainStep], feed_dict = feedDict4Train)
-          #print("loss:", loss)
 
         # For validation
         hammingLoss, oneError, coverage, rankingLoss, jaccardIndex, averagePrecision = \

@@ -141,7 +141,6 @@ class CNNModel(CommonModelFunc):
                num4InputChannels],
               name = "xInput4L1000PC3")
 
-
     # ===== First convolutional layer =====
     with tf.variable_scope("conv1Layer"):
       # W and B are weight and bias for short.
@@ -157,7 +156,7 @@ class CNNModel(CommonModelFunc):
       name4Z4L1000PC3, name4H4L1000PC3 = "conv1Z4L1000PC3", "conv1H4L1000PC3"
 
       # Initial weight and bias in Conv1
-      # Input channels and output channels in Conv1 are 1, 320
+      # Input channels and output channels in Conv1 are 1, 320 / 40
       num4InputChannels, num4OutputChannels = \
           self.FLAGS.num4InputChannels4Conv1, \
           self.FLAGS.num4OutputChannels4Conv1
@@ -278,7 +277,6 @@ class CNNModel(CommonModelFunc):
               conv1Z4L1000PC3,
               name = name4H4L1000PC3)
 
-
     # ===== First pooling layer =====
     with tf.variable_scope("pooling1Layer"):
       name4H4DrugFingerPring = "pooling1H4DrugFingerPrint"
@@ -359,7 +357,6 @@ class CNNModel(CommonModelFunc):
               pool1SWidth,
               name4H4L1000PC3)
 
-
     # ===== Second convolutional layer =====
     with tf.variable_scope("conv2Layer"):
       # W and B are weight and bias for short.
@@ -375,7 +372,7 @@ class CNNModel(CommonModelFunc):
       name4Z4L1000PC3, name4H4L1000PC3 = "conv2Z4L1000PC3", "conv2H4L1000PC3"
 
       # Initial weight and bias in Conv2
-      # Input channels and output channels in Conv2 are 320, 480
+      # Input channels and output channels in Conv2 are 320 / 40, 480 / 40
       num4InputChannels, num4OutputChannels = \
           self.FLAGS.num4InputChannels4Conv2, \
           self.FLAGS.num4OutputChannels4Conv2
@@ -496,7 +493,6 @@ class CNNModel(CommonModelFunc):
               conv2Z4L1000PC3,
               name = name4H4L1000PC3)
 
-
     # ===== Second pooling layer =====
     with tf.variable_scope("pooling2Layer"):
       name4H4DrugFingerPring = "pooling2H4DrugFingerPrint"
@@ -577,7 +573,6 @@ class CNNModel(CommonModelFunc):
               pool2SWidth,
               name4H4L1000PC3)
 
-
     # ===== Third convolutional layer =====
     with tf.variable_scope("conv3Layer"):
       # W and B are weight and bias for short.
@@ -593,7 +588,7 @@ class CNNModel(CommonModelFunc):
       name4Z4L1000PC3, name4H4L1000PC3 = "conv3Z4L1000PC3", "conv3H4L1000PC3"
 
       # Initial weight and bias in Conv1
-      # Input channels and output channels in Conv3 are 480, 960.
+      # Input channels and output channels in Conv3 are 480 / 40, 960 / 40
       num4InputChannels, num4OutputChannels = \
           self.FLAGS.num4InputChannels4Conv3, \
           self.FLAGS.num4OutputChannels4Conv3
@@ -735,7 +730,6 @@ class CNNModel(CommonModelFunc):
           self.shape4Conv3H4L1000PC3 = \
               self.conv3H4L1000PC3.get_shape().as_list()
 
-
     # ===== Appending layer =====
     with tf.variable_scope("appendingLayer"):
       name4H4DrugFingerPrint = "input4FixedSize4DrugFingerPrint"
@@ -826,7 +820,6 @@ class CNNModel(CommonModelFunc):
               self.conv3H4L1000PC3,
               [-1, 1, len4FeatureMaps4L1000PC3, 1],
               name = name4H4L1000PC3)
-
 
     # ===== ROI pooling layer =====
     with tf.variable_scope("roiPoolingLayer"):
@@ -939,7 +932,6 @@ class CNNModel(CommonModelFunc):
               roiPoolingSHeight4L1000PC3,
               roiPoolingSWidth4L1000PC3,
               name4H4L1000PC3)
-
 
     # ===== Concation layer for input of LSTM =====
     with tf.variable_scope("concationLayer4Input4LSTM"):
