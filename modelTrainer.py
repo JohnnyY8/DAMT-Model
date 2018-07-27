@@ -7,18 +7,25 @@ import random
 import numpy as np
 import tensorflow as tf
 
-#from resultStorer import *
+from resultStorer import *
 from evaluationMetric import *
 
 class ModelTrainer:
 
   def __init__(self, FLAGS, insDataPro, insCNNModel):
     self.FLAGS = FLAGS
+
     self.insDataPro = insDataPro
-    self.insCNNModel = insCNNModel
-    #self.insResultStorer = ResultStorer(FLAGS)
     self.xTrainIndex, self.xTestIndex, self.yTrainIndex, self.yTestIndex = \
         self.insDataPro.splitData2TrainAndVal()
+
+    self.insCNNModel = insCNNModel
+
+    self.insResultStorer = ResultStorer(FLAGS)
+    #self.insResultStorer.saveTrainSetIndex(self.xTrainIndex)
+    #self.insResultStorer.saveValidationSetIndex(self.xTestIndex)
+    #self.insResultStorer.saveTrainLabelIndex(self.yTrainIndex)
+    #self.insResultStorer.saveValidationLabelIndex(self.yTestIndex)
 
   # Get the dictionary for training CNN model
   def getDict4Train4CNNModel(self, ind4xyTrainIndex, ind4Start):
@@ -251,6 +258,8 @@ class ModelTrainer:
                self.insDiscriminator.accu4Discriminator],
               feed_dict = feedDict4Test)
 
+          print "accu:", accu
+          raw_input("...")
           resAccu += accu * num4BatchInIteration
 
         print "  accu4Discriminator:", resAccu / self.xTestIndex.shape[0]

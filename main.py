@@ -39,7 +39,7 @@ flags.DEFINE_string(
     "Path for saving trained model.")
 
 flags.DEFINE_string(
-    "path4FinalValues",
+    "path4SaveFinalValues",
     "./files/finalValues",
     "Path for saving final values.")
 
