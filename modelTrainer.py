@@ -201,18 +201,20 @@ class ModelTrainer:
         print "  jaccardIndex:", jaccardIndex / self.xTestIndex.shape[0]
         print "  averagePrecision:", averagePrecision / self.xTestIndex.shape[0]
 
+    print "Training biLSTM is done."
+
   # Traing and validation for discriminator
   def trainDiscriminator(self, insDiscriminator):
     self.insDiscriminator = insDiscriminator
 
-    batchSize, bestValAccu = self.FLAGS.batchSize, 0.0
+    batchSize = self.FLAGS.batchSize4Discriminator
     init = tf.global_variables_initializer()
 
     with tf.Session() as sess:
       #saver = tf.train.Saver()
       sess.run(init)
 
-      for i in xrange(self.FLAGS.num4Epoches):
+      for i in xrange(self.FLAGS.num4Epoches4Discriminator):
         print("No.%d epoch started." % (i))
 
         # For training
@@ -249,6 +251,8 @@ class ModelTrainer:
                self.insDiscriminator.accu4Discriminator],
               feed_dict = feedDict4Test)
 
-          resAccu += accu * batchSize
+          resAccu += accu * num4BatchInIteration
 
         print "  accu4Discriminator:", resAccu / self.xTestIndex.shape[0]
+
+    print "Training for discriminator is done."
