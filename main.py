@@ -125,7 +125,7 @@ flags.DEFINE_integer(
 
 flags.DEFINE_integer(
     "num4Epoches",
-    200,
+    130,
     "Epoches for training.")
 
 flags.DEFINE_integer(

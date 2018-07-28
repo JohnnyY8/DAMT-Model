@@ -28,8 +28,7 @@ class ModelTrainer:
     #self.insResultStorer.saveValidationLabelIndex(self.yTestIndex)
 
   # Get the dictionary for training CNN model
-  def getDict4Train4CNNModel(self, ind4xyTrainIndex, ind4Start):
-    batchSize = self.FLAGS.batchSize
+  def getDict4Train4CNNModel(self, ind4xyTrainIndex, ind4Start, batchSize):
     featureTypes = self.insDataPro.featureTypes
     feedDict4Train4CNNModel = {}
 
@@ -95,8 +94,7 @@ class ModelTrainer:
     return feedDict4Train4CNNModel
 
   # Get the dictionary for testing CNN model
-  def getDict4Test4CNNModel(self, ind4Start):
-    batchSize = self.FLAGS.batchSize
+  def getDict4Test4CNNModel(self, ind4Start, batchSize):
     featureTypes = self.insDataPro.featureTypes
     feedDict4Test4CNNModel = {}
 
@@ -170,7 +168,7 @@ class ModelTrainer:
         random.shuffle(ind4xyTrainIndex)
 
         for j in xrange(0, ind4xyTrainIndex.shape[0], batchSize):
-          feedDict4Train = self.getDict4Train4CNNModel(ind4xyTrainIndex, j)
+          feedDict4Train = self.getDict4Train4CNNModel(ind4xyTrainIndex, j, batchSize)
 
           batchY4Classification = self.insDataPro.label4Classification[
               self.yTrainIndex[
@@ -186,7 +184,7 @@ class ModelTrainer:
             0.0, 0.0, 0.0, 0.0, 0.0, 0.0
 
         for j in xrange(0, self.xTestIndex.shape[0], batchSize):
-          feedDict4Test = self.getDict4Test4CNNModel(j)
+          feedDict4Test = self.getDict4Test4CNNModel(j, batchSize)
 
           testY4Classification = self.insDataPro.label4Classification[self.xTestIndex[j: j + batchSize]]
           feedDict4Test[self.insBiLSTM.yLabel4Classification] = testY4Classification
@@ -214,22 +212,51 @@ class ModelTrainer:
   def trainDiscriminator(self, insDiscriminator):
     self.insDiscriminator = insDiscriminator
 
-    batchSize = self.FLAGS.batchSize4Discriminator
+    displayStep4Discriminator = 300  # 2
+    batchSize4Discriminator = 2
+    num4Epoches4Discriminator = 2
     init = tf.global_variables_initializer()
 
     with tf.Session() as sess:
       #saver = tf.train.Saver()
       sess.run(init)
 
-      for i in xrange(self.FLAGS.num4Epoches4Discriminator):
+      count4DisplayStep = 0
+      for i in xrange(num4Epoches4Discriminator):
         print("No.%d epoch started." % (i))
 
         # For training
         ind4xyTrainIndex = np.array(range(self.xTrainIndex.shape[0]))
         random.shuffle(ind4xyTrainIndex)
 
-        for j in xrange(0, ind4xyTrainIndex.shape[0], batchSize):
-          feedDict4Train = self.getDict4Train4CNNModel(ind4xyTrainIndex, j)
+        for j in xrange(0, ind4xyTrainIndex.shape[0], batchSize4Discriminator):
+          # For display accuracy of discriminator
+          count4DisplayStep += 1
+          if count4DisplayStep % displayStep4Discriminator == 0:
+            resAccu = 0.0
+            for j in xrange(0, self.xTestIndex.shape[0], batchSize4Discriminator):
+              feedDict4Test = self.getDict4Test4CNNModel(j, batchSize4Discriminator)
+
+              for key in feedDict4Test:
+                num4BatchInIteration = feedDict4Test[key].shape[0]
+                break
+              feedDict4Test[self.insDiscriminator.yLabel4Discriminator] = \
+                  self.insDataPro.getLabels4Discriminator(num4BatchInIteration)
+
+              score, accu = sess.run(
+                  [self.insDiscriminator.discriminatorH,
+                   self.insDiscriminator.accu4Discriminator],
+                  feed_dict = feedDict4Test)
+
+              resAccu += accu * num4BatchInIteration
+
+            print "  accu4Discriminator:", resAccu / self.xTestIndex.shape[0]
+
+            count = 0
+
+          # For optimizing discriminator
+          feedDict4Train = self.getDict4Train4CNNModel(
+              ind4xyTrainIndex, j, batchSize4Discriminator)
 
           for key in feedDict4Train:
             num4BatchInIteration = feedDict4Train[key].shape[0]
@@ -242,26 +269,5 @@ class ModelTrainer:
                self.insDiscriminator.accu4Discriminator,
                self.insDiscriminator.trainStep],
               feed_dict = feedDict4Train)
-
-        resAccu = 0.0
-        for j in xrange(0, self.xTestIndex.shape[0], batchSize):
-          feedDict4Test = self.getDict4Test4CNNModel(j)
-
-          for key in feedDict4Test:
-            num4BatchInIteration = feedDict4Test[key].shape[0]
-            break
-          feedDict4Test[self.insDiscriminator.yLabel4Discriminator] = \
-              self.insDataPro.getLabels4Discriminator(num4BatchInIteration)
-
-          score, accu = sess.run(
-              [self.insDiscriminator.discriminatorH,
-               self.insDiscriminator.accu4Discriminator],
-              feed_dict = feedDict4Test)
-
-          print "accu:", accu
-          raw_input("...")
-          resAccu += accu * num4BatchInIteration
-
-        print "  accu4Discriminator:", resAccu / self.xTestIndex.shape[0]
 
     print "Training for discriminator is done."
