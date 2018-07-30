@@ -155,9 +155,9 @@ if __name__ == "__main__":
   insModelTrainer = ModelTrainer(FLAGS, insDataPro, insCNNModel)
 
   # Get discriminator
-  #insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
-  #insDiscriminator.getDiscriminator()
-  #insModelTrainer.trainDiscriminator(insDiscriminator)
+  insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
+  insDiscriminator.getDiscriminator()
+  insModelTrainer.trainDiscriminator(insDiscriminator)
 
   # Get biLSTM
   insDataPro.getLabels4Classification()
