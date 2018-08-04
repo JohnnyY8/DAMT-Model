@@ -18,7 +18,7 @@ class ModelTrainer:
     self.insDataPro = insDataPro
     self.xTrainIndex, self.xTestIndex, self.yTrainIndex, self.yTestIndex = \
         self.insDataPro.splitData2TrainAndVal()
-    np.save("./files/eggFiles/testIndex0.npy", self.xTestIndex)
+    np.save("./files/eggFiles/testIndex25.npy", self.xTestIndex)
 
     self.insCNNModel = insCNNModel
 
@@ -191,7 +191,7 @@ class ModelTrainer:
           feedDict4Test[self.insBiLSTM.yLabel4Classification] = testY4Classification
 
           score = sess.run(self.insBiLSTM.outputH4LSTM, feed_dict = feedDict4Test)
-          np.save("./files/eggFiles/score0.npy", score)
+          np.save("./files/eggFiles/score25.npy", score)
 
           num4BatchInIteration = testY4Classification.shape[0]
           hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification) * num4BatchInIteration
