@@ -104,11 +104,6 @@ flags.DEFINE_integer(
     "Batch size for training.")
 
 flags.DEFINE_integer(
-    "batchSize4Discriminator",
-    5,
-    "Batch size for training.")
-
-flags.DEFINE_integer(
     "displayStep",
     100,
     "Steps for displaying training procedure.")
@@ -126,11 +121,6 @@ flags.DEFINE_integer(
 flags.DEFINE_integer(
     "num4Epoches",
     130,
-    "Epoches for training.")
-
-flags.DEFINE_integer(
-    "num4Epoches4Discriminator",
-    10,
     "Epoches for training.")
 
 flags.DEFINE_integer(
