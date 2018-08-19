@@ -90,8 +90,8 @@ class DataPro:
     xTrainIndex, xTestIndex, yTrainIndex, yTestIndex = train_test_split(
         index,
         index,
-        test_size = self.FLAGS.testSize)
-        #random_state = 24)
+        test_size = self.FLAGS.testSize,
+        random_state = 1)
 
     return xTrainIndex, xTestIndex, yTrainIndex, yTestIndex
 

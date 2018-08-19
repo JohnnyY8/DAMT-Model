@@ -18,15 +18,25 @@ class ModelTrainer:
     self.insDataPro = insDataPro
     self.xTrainIndex, self.xTestIndex, self.yTrainIndex, self.yTestIndex = \
         self.insDataPro.splitData2TrainAndVal()
-    np.save("./files/eggFiles/testIndex34.npy", self.xTestIndex)
+    temp = np.array([ 550,  619,  807, 1109, 1280, 1756, 1833, 1834, 2016, 2153, 2251,
+       2267, 2828, 3110, 3286, 3983, 4237, 4339, 4416, 4651, 4700, 4834,
+       5283, 5448, 5570])
+    ind4Train = [np.where(self.xTrainIndex == i) for i in temp if i in self.xTrainIndex]
+    top25 = self.xTestIndex[: 25]
+    for ind, ele in enumerate(ind4Train):
+      self.xTrainIndex[ele] = top25[ind]
+      self.yTrainIndex[ele] = top25[ind]
+    self.xTestIndex[: 25] = temp
+    self.yTestIndex[: 25] = temp
+    print [np.where(self.xTrainIndex == i) for i in temp if i in self.xTrainIndex]
+    print [np.where(self.yTrainIndex == i) for i in temp if i in self.yTrainIndex]
+    print [np.where(self.xTestIndex == i) for i in temp if i in self.xTestIndex]
+    print [np.where(self.yTestIndex == i) for i in temp if i in self.yTestIndex]
+    np.save("./files/eggFiles/testIndex50.npy", self.xTestIndex)
 
     self.insCNNModel = insCNNModel
 
     self.insResultStorer = ResultStorer(FLAGS)
-    #self.insResultStorer.saveTrainSetIndex(self.xTrainIndex)
-    #self.insResultStorer.saveValidationSetIndex(self.xTestIndex)
-    #self.insResultStorer.saveTrainLabelIndex(self.yTrainIndex)
-    #self.insResultStorer.saveValidationLabelIndex(self.yTestIndex)
 
   # Get the dictionary for training CNN model
   def getDict4Train4CNNModel(self, ind4xyTrainIndex, ind4Start, batchSize):
@@ -191,7 +201,11 @@ class ModelTrainer:
           feedDict4Test[self.insBiLSTM.yLabel4Classification] = testY4Classification
 
           score = sess.run(self.insBiLSTM.outputH4LSTM, feed_dict = feedDict4Test)
-          np.save("./files/eggFiles/score34.npy", score)
+          if j == 0:
+            res = score
+          else:
+            res = np.vstack((res, score))
+          np.save("./files/eggFiles/score50.npy", res)
 
           num4BatchInIteration = testY4Classification.shape[0]
           hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification) * num4BatchInIteration
