@@ -91,7 +91,7 @@ class DataPro:
         index,
         index,
         test_size = self.FLAGS.testSize,
-        random_state = 1)
+        random_state = 24)
 
     return xTrainIndex, xTestIndex, yTrainIndex, yTestIndex
 

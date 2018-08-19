@@ -7,7 +7,7 @@ import random
 import numpy as np
 import tensorflow as tf
 
-from resultStorer import *
+#from resultStorer import *
 from evaluationMetric import *
 
 class ModelTrainer:
@@ -18,25 +18,8 @@ class ModelTrainer:
     self.insDataPro = insDataPro
     self.xTrainIndex, self.xTestIndex, self.yTrainIndex, self.yTestIndex = \
         self.insDataPro.splitData2TrainAndVal()
-    temp = np.array([ 550,  619,  807, 1109, 1280, 1756, 1833, 1834, 2016, 2153, 2251,
-       2267, 2828, 3110, 3286, 3983, 4237, 4339, 4416, 4651, 4700, 4834,
-       5283, 5448, 5570])
-    ind4Train = [np.where(self.xTrainIndex == i) for i in temp if i in self.xTrainIndex]
-    top25 = self.xTestIndex[: 25]
-    for ind, ele in enumerate(ind4Train):
-      self.xTrainIndex[ele] = top25[ind]
-      self.yTrainIndex[ele] = top25[ind]
-    self.xTestIndex[: 25] = temp
-    self.yTestIndex[: 25] = temp
-    print [np.where(self.xTrainIndex == i) for i in temp if i in self.xTrainIndex]
-    print [np.where(self.yTrainIndex == i) for i in temp if i in self.yTrainIndex]
-    print [np.where(self.xTestIndex == i) for i in temp if i in self.xTestIndex]
-    print [np.where(self.yTestIndex == i) for i in temp if i in self.yTestIndex]
-    np.save("./files/eggFiles/testIndex50.npy", self.xTestIndex)
-
     self.insCNNModel = insCNNModel
-
-    self.insResultStorer = ResultStorer(FLAGS)
+    #self.insResultStorer = ResultStorer(FLAGS)
 
   # Get the dictionary for training CNN model
   def getDict4Train4CNNModel(self, ind4xyTrainIndex, ind4Start, batchSize):
@@ -168,7 +151,7 @@ class ModelTrainer:
     init = tf.global_variables_initializer()
 
     with tf.Session() as sess:
-      #saver = tf.train.Saver()
+      saver = tf.train.Saver()
       sess.run(init)
 
       for i in xrange(self.FLAGS.num4Epoches):
@@ -201,11 +184,6 @@ class ModelTrainer:
           feedDict4Test[self.insBiLSTM.yLabel4Classification] = testY4Classification
 
           score = sess.run(self.insBiLSTM.outputH4LSTM, feed_dict = feedDict4Test)
-          if j == 0:
-            res = score
-          else:
-            res = np.vstack((res, score))
-          np.save("./files/eggFiles/score50.npy", res)
 
           num4BatchInIteration = testY4Classification.shape[0]
           hammingLoss += EvaluationMetric.getHammingLoss(score, testY4Classification) * num4BatchInIteration
@@ -222,13 +200,18 @@ class ModelTrainer:
         print "  jaccardIndex:", jaccardIndex / self.xTestIndex.shape[0]
         print "  averagePrecision:", averagePrecision / self.xTestIndex.shape[0]
 
-    print "Training biLSTM is done."
+      savePath = saver.save(
+          sess,
+          os.path.join(self.FLAGS.path4TrainedModel, "model.ckpt"))
+
+    print("Training biLSTM is done.")
+    print("The model is saved in: ", savePath)
 
   # Traing and validation for discriminator
   def trainDiscriminator(self, insDiscriminator):
     self.insDiscriminator = insDiscriminator
 
-    displayStep4Discriminator = 300  # 2
+    displayStep4Discriminator = 300
     batchSize4Discriminator = 2
     num4Epoches4Discriminator = 2
     init = tf.global_variables_initializer()
@@ -238,8 +221,9 @@ class ModelTrainer:
       sess.run(init)
 
       count4DisplayStep = 0
+      print("The discriminator is being trained.")
       for i in xrange(num4Epoches4Discriminator):
-        print("No.%d epoch started." % (i))
+        #print("No.%d epoch started." % (i))
 
         # For training
         ind4xyTrainIndex = np.array(range(self.xTrainIndex.shape[0]))
@@ -265,10 +249,7 @@ class ModelTrainer:
                   feed_dict = feedDict4Test)
 
               resAccu += accu * num4BatchInIteration
-
-            print "  accu4Discriminator:", resAccu / self.xTestIndex.shape[0]
-
-            count = 0
+            #print "  accu4Discriminator:", resAccu / self.xTestIndex.shape[0]
 
           # For optimizing discriminator
           feedDict4Train = self.getDict4Train4CNNModel(
