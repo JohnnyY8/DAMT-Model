@@ -217,13 +217,11 @@ class ModelTrainer:
     init = tf.global_variables_initializer()
 
     with tf.Session() as sess:
-      #saver = tf.train.Saver()
       sess.run(init)
 
       count4DisplayStep = 0
       print("The discriminator is being trained.")
       for i in xrange(num4Epoches4Discriminator):
-        #print("No.%d epoch started." % (i))
 
         # For training
         ind4xyTrainIndex = np.array(range(self.xTrainIndex.shape[0]))
