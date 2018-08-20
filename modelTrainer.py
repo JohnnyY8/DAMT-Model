@@ -205,7 +205,7 @@ class ModelTrainer:
           os.path.join(self.FLAGS.path4TrainedModel, "model.ckpt"))
 
     print("Training biLSTM is done.")
-    print("The model is saved in: ", savePath)
+    print("The model is saved in: " + savePath)
 
   # Traing and validation for discriminator
   def trainDiscriminator(self, insDiscriminator):
