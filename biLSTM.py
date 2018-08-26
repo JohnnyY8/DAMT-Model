@@ -54,15 +54,13 @@ class BiLSTM(CommonModelFunc):
             lstmFwCell,
             lstmBwCell,
             self.insCNNModel.output4FixedSize4LSTM,
-            dtype = tf.float32,
-            name = name4Hiddens)
+            dtype = tf.float32)
       except Exception:  # Old TensorFlow version only returns outputs not states
         self.hiddenOutputs = rnn.static_bidirectional_rnn(
             lstmFwCell,
             lstmBwCell,
             self.insCNNModel.output4FixedSize4LSTM,
-            dtype = tf.float32,
-            name = name4Hiddens)
+            dtype = tf.float32)
 
       self.outputZ4LSTM = tf.add(
           tf.matmul(
