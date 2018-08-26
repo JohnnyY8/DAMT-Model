@@ -824,7 +824,7 @@ class CNNModel(CommonModelFunc):
     # ===== ROI pooling layer =====
     with tf.variable_scope("roiPoolingLayer"):
       name4H4DrugFingerPrint = "roiPoolingH4DrugFingerPrint"
-      name4H4DrugPhy = "roiPoolingH4DrugFingerPhy"
+      name4H4DrugPhy = "roiPoolingH4DrugPhy"
       name4H4L1000A375 = "roiPoolingH4L1000A375"
       name4H4L1000HA1E = "roiPoolingH4L1000HA1E"
       name4H4L1000HT29 = "roiPoolingH4L1000HT29"
