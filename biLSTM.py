@@ -62,10 +62,11 @@ class BiLSTM(CommonModelFunc):
             self.insCNNModel.output4FixedSize4LSTM,
             dtype = tf.float32)
 
-      self.finalState4LSTM = tf.assign(
-          self.finalState,
-          self.hiddenOutputs[-1],
-          name = name4Hiddens)
+      #self.finalState = self.init_weight_variable("name", [1, 256])
+      #self.finalState4LSTM = tf.assign(
+      #    self.finalState,
+      #    self.hiddenOutputs[-1],
+      #    name = name4Hiddens)
 
       self.outputZ4LSTM = tf.add(
           tf.matmul(
