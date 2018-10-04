@@ -11,6 +11,9 @@ from discriminator import *
 from biLSTM import *
 from modelTrainer import *
 
+from sigmoid import *
+from modelTrainer4Sigmoid import *
+
 flags = tf.app.flags
 
 flags.DEFINE_string(
@@ -143,6 +146,14 @@ if __name__ == "__main__":
 
   # Get model trainer instance
   insModelTrainer = ModelTrainer(FLAGS, insDataPro, insCNNModel)
+
+  # Get simoid model
+  #insDataPro.getLabels4Classification()
+  #insSigmoid = Sigmoid(FLAGS, insDataPro, insCNNModel)
+  #insSigmoid.getSigmoid()
+  #insModelTrainer4Sigmoid = ModelTrainer4Sigmoid(FLAGS, insDataPro, insCNNModel)
+  #insModelTrainer4Sigmoid.trainSigmoid(insSigmoid)
+  #raw_input("....")
 
   # Get discriminator
   insDiscriminator = Discriminator(FLAGS, insDataPro, insCNNModel)
