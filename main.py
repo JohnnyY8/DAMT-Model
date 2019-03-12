@@ -11,8 +11,8 @@ from discriminator import *
 from biLSTM import *
 from modelTrainer import *
 
-from sigmoid import *
-from modelTrainer4Sigmoid import *
+#from sigmoid import *
+#from modelTrainer4Sigmoid import *
 
 flags = tf.app.flags
 
