@@ -7,6 +7,6 @@ If anyone wants to run this code, please download the L1000 datasets from https:
 
 # How to run?
 Just run command "sh run.sh". The result information will be saved in "./info.txt".
-If you need any information about command line arguments, please run "python main.py -h".
+If you need any information about command line arguments, please run "python main.py".
 
 # Thanks!
